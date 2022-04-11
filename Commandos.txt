@@ -1,0 +1,10 @@
+Git add *
+
+Git commit -m "message"
+
+git push
+
+
+git pull
+
+git stash
