@@ -161,7 +161,7 @@ void CgQtGui::createOptionPanelUebung02(QWidget* parent)
     tab4_control->addWidget(mySpinBoxSchritte);
     mySpinBoxSchritte->setMinimum(1);
     mySpinBoxSchritte->setMaximum(50);
-    mySpinBoxSchritte->setValue(1);
+    mySpinBoxSchritte->setValue(2);
     // mySpinBoxSchritte->setSuffix("   suffix");
     mySpinBoxSchritte->setPrefix("Schritte:  ");
     connect(mySpinBoxSchritte, SIGNAL(valueChanged(int) ), this, SLOT(slotMySpinBox1Changed()) );

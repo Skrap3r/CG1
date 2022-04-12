@@ -19,6 +19,7 @@
 #include "glm/gtx/string_cast.hpp"
 #include "CgUtils/ObjLoader.h"
 #include <string>
+#include "glm/gtx/string_cast.hpp"
 
 bool draw_dice = false;
 bool draw_dice_normals = false;
@@ -173,6 +174,12 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() & Cg::CgSchritteResetEvent){
         CgSchritteResetEvent* ev = (CgSchritteResetEvent*)e;
 
+        auto id = m_polyline->getID();
+        delete m_polyline;
+        m_polyline = new CgPolyline(id);
+
+        m_renderer->redraw();
+
         std::cout << "Reset ausgeführt" << std::endl;
 
     }
@@ -182,8 +189,13 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         m_polyline->startLaneRiesenfeldAlgo(ev->getSchritte());
 
-        std::cout << "Schritte ausgeführt: " << ev->getSchritte() << std::endl;
+        m_renderer->redraw();
 
+        for(glm::vec3 s : m_polyline->getVertices())
+        {
+            std::cout << glm::to_string(s) << std::endl;
+        }
+        //std::cout << "Schritte ausgeführt: " << ev->getSchritte() << std::endl;
     }
 
     if(e->getType() & Cg::CgColorChangeEvent){

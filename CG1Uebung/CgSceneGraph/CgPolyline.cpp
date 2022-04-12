@@ -16,9 +16,10 @@ CgPolyline::CgPolyline(int id):
     m_type(Cg::Polyline),
     m_id(id)
 {
-    m_vertices.push_back(glm::vec3(0.1,0.1,0.1));
-    m_vertices.push_back(glm::vec3(-0.1,0.1,0.1));
-    m_vertices.push_back(glm::vec3(0.1,-0.1,0.1));
+    m_vertices.push_back(glm::vec3(1.0,0.0,0.0));
+    m_vertices.push_back(glm::vec3(0.5,0.5,0));
+    m_vertices.push_back(glm::vec3(-0.5,0.5,0));
+    m_vertices.push_back(glm::vec3(-1.0,0.0,0.0));
 
     m_lineWidth = 1;
 }
@@ -46,18 +47,35 @@ void CgPolyline::startLaneRiesenfeldAlgo(int schritte)
         m_vertices.at(i*2+1) = m_vertices.at(i);
     }
 
-    for(int i = 0; i < schritte; i++)
-    {
-        for(int j = 0; j < new_size; j++)
-        {
-
-        }
-    }
-
+    /*
     for(glm::vec3 s : m_vertices)
     {
         std::cout << glm::to_string(s) << std::endl;
     }
+    std::cout << std::endl;
+    */
+
+
+    for(int i = 0; i < schritte; i++)
+    {
+        //std::cout << "Mittlungsschritt nr. " < i+1 << std::endl;
+        for(int j = 0; j < new_size - 1; j++)
+        {
+            //std::cout << "Mitteln nr. " << j+1 << std::endl;
+            m_vertices.at(j) = 0.5f*m_vertices.at(j) + 0.5f*m_vertices.at(j+1);
+        }
+        m_vertices.pop_back();
+        new_size--;
+    }
+
+
+    /*
+    for(glm::vec3 s : m_vertices)
+    {
+        std::cout << glm::to_string(s) << std::endl;
+    }
+    std::cout << std::endl << std::endl;
+    */
 }
 
 CgPolyline::~CgPolyline()
