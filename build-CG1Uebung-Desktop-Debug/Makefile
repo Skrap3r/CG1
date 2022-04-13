@@ -65,6 +65,7 @@ SOURCES       = ../CG1Uebung/main.cpp \
 		../CG1Uebung/CgQtViewer/CgQtMainApplication.cpp \
 		../CG1Uebung/CgSceneGraph/CgDice.cpp \
 		../CG1Uebung/CgSceneGraph/CgPolyline.cpp \
+		../CG1Uebung/CgSceneGraph/CgRotation.cpp \
 		../CG1Uebung/CgSceneGraph/CgSceneControl.cpp \
 		../CG1Uebung/CgEvents/CgKeyEvent.cpp \
 		../CG1Uebung/CgSceneGraph/CgExampleTriangle.cpp \
@@ -90,6 +91,7 @@ OBJECTS       = main.o \
 		CgQtMainApplication.o \
 		CgDice.o \
 		CgPolyline.o \
+		CgRotation.o \
 		CgSceneControl.o \
 		CgKeyEvent.o \
 		CgExampleTriangle.o \
@@ -159,6 +161,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		../CG1Uebung/.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -193,6 +196,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../CG1Uebung/CgQtViewer/CgQtMainApplication.h \
 		../CG1Uebung/CgSceneGraph/CgDice.h \
 		../CG1Uebung/CgSceneGraph/CgPolyline.h \
+		../CG1Uebung/CgSceneGraph/CgRotation.h \
 		../CG1Uebung/CgSceneGraph/CgSceneControl.h \
 		../CG1Uebung/CgEvents/CgKeyEvent.h \
 		../CG1Uebung/CgBase/CgBaseRenderer.h \
@@ -222,6 +226,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../CG1Uebung/CgQtViewer/CgQtMainApplication.cpp \
 		../CG1Uebung/CgSceneGraph/CgDice.cpp \
 		../CG1Uebung/CgSceneGraph/CgPolyline.cpp \
+		../CG1Uebung/CgSceneGraph/CgRotation.cpp \
 		../CG1Uebung/CgSceneGraph/CgSceneControl.cpp \
 		../CG1Uebung/CgEvents/CgKeyEvent.cpp \
 		../CG1Uebung/CgSceneGraph/CgExampleTriangle.cpp \
@@ -299,6 +304,7 @@ Makefile: ../CG1Uebung/CG1Uebung.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -376,6 +382,7 @@ Makefile: ../CG1Uebung/CG1Uebung.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
@@ -411,8 +418,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../CG1Uebung/CgEvents/CgColorChangeEvent.h ../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.h ../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.h ../CG1Uebung/CgEvents/CgSchritteAusfuehrenEvent.h ../CG1Uebung/CgEvents/CgSchritteResetEvent.h ../CG1Uebung/CgQtViewer/CgQtGLRenderWidget.h ../CG1Uebung/CgQtViewer/CgQtGui.h ../CG1Uebung/CgBase/CgObserver.h ../CG1Uebung/CgBase/CgObservable.h ../CG1Uebung/CgBase/CgBaseEvent.h ../CG1Uebung/CgBase/CgEnums.h ../CG1Uebung/CgEvents/CgMouseEvent.h ../CG1Uebung/CgQtViewer/CgQtMainApplication.h ../CG1Uebung/CgSceneGraph/CgDice.h ../CG1Uebung/CgSceneGraph/CgPolyline.h ../CG1Uebung/CgSceneGraph/CgSceneControl.h ../CG1Uebung/CgEvents/CgKeyEvent.h ../CG1Uebung/CgBase/CgBaseRenderer.h ../CG1Uebung/CgBase/CgBaseRenderableObject.h ../CG1Uebung/CgSceneGraph/CgExampleTriangle.h ../CG1Uebung/CgBase/CgBasePointCloud.h ../CG1Uebung/CgBase/CgBaseTriangleMesh.h ../CG1Uebung/CgBase/CgBasePolygonMesh.h ../CG1Uebung/CgBase/CgBasePolyline.h ../CG1Uebung/CgBase/CgBaseSceneControl.h ../CG1Uebung/CgQtViewer/CgQtGlBufferObject.h ../CG1Uebung/CgQtViewer/CgTrackball.h ../CG1Uebung/CgEvents/CgWindowResizeEvent.h ../CG1Uebung/CgEvents/CgLoadObjFileEvent.h ../CG1Uebung/CgUtils/ObjLoader.h ../CG1Uebung/CgBase/CgBaseImage.h ../CG1Uebung/CgEvents/CgTrackballEvent.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../CG1Uebung/main.cpp ../CG1Uebung/CgEvents/CgColorChangeEvent.cpp ../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.cpp ../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.cpp ../CG1Uebung/CgEvents/CgSchritteAusfuehrenEvent.cpp ../CG1Uebung/CgEvents/CgSchritteResetEvent.cpp ../CG1Uebung/CgQtViewer/CGQtGLRenderWidget.cpp ../CG1Uebung/CgQtViewer/CgQtGui.cpp ../CG1Uebung/CgBase/CgObservable.cpp ../CG1Uebung/CgEvents/CgMouseEvent.cpp ../CG1Uebung/CgQtViewer/CgQtMainApplication.cpp ../CG1Uebung/CgSceneGraph/CgDice.cpp ../CG1Uebung/CgSceneGraph/CgPolyline.cpp ../CG1Uebung/CgSceneGraph/CgSceneControl.cpp ../CG1Uebung/CgEvents/CgKeyEvent.cpp ../CG1Uebung/CgSceneGraph/CgExampleTriangle.cpp ../CG1Uebung/CgQtViewer/CgQtGlBufferObject.cpp ../CG1Uebung/CgQtViewer/CgTrackball.cpp ../CG1Uebung/CgEvents/CgWindowResizeEvent.cpp ../CG1Uebung/CgEvents/CgLoadObjFileEvent.cpp ../CG1Uebung/CgUtils/Calc.cpp ../CG1Uebung/CgUtils/ObjLoader.cpp ../CG1Uebung/CgEvents/CgTrackballEvent.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../CG1Uebung/CgEvents/CgColorChangeEvent.h ../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.h ../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.h ../CG1Uebung/CgEvents/CgSchritteAusfuehrenEvent.h ../CG1Uebung/CgEvents/CgSchritteResetEvent.h ../CG1Uebung/CgQtViewer/CgQtGLRenderWidget.h ../CG1Uebung/CgQtViewer/CgQtGui.h ../CG1Uebung/CgBase/CgObserver.h ../CG1Uebung/CgBase/CgObservable.h ../CG1Uebung/CgBase/CgBaseEvent.h ../CG1Uebung/CgBase/CgEnums.h ../CG1Uebung/CgEvents/CgMouseEvent.h ../CG1Uebung/CgQtViewer/CgQtMainApplication.h ../CG1Uebung/CgSceneGraph/CgDice.h ../CG1Uebung/CgSceneGraph/CgPolyline.h ../CG1Uebung/CgSceneGraph/CgRotation.h ../CG1Uebung/CgSceneGraph/CgSceneControl.h ../CG1Uebung/CgEvents/CgKeyEvent.h ../CG1Uebung/CgBase/CgBaseRenderer.h ../CG1Uebung/CgBase/CgBaseRenderableObject.h ../CG1Uebung/CgSceneGraph/CgExampleTriangle.h ../CG1Uebung/CgBase/CgBasePointCloud.h ../CG1Uebung/CgBase/CgBaseTriangleMesh.h ../CG1Uebung/CgBase/CgBasePolygonMesh.h ../CG1Uebung/CgBase/CgBasePolyline.h ../CG1Uebung/CgBase/CgBaseSceneControl.h ../CG1Uebung/CgQtViewer/CgQtGlBufferObject.h ../CG1Uebung/CgQtViewer/CgTrackball.h ../CG1Uebung/CgEvents/CgWindowResizeEvent.h ../CG1Uebung/CgEvents/CgLoadObjFileEvent.h ../CG1Uebung/CgUtils/ObjLoader.h ../CG1Uebung/CgBase/CgBaseImage.h ../CG1Uebung/CgEvents/CgTrackballEvent.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../CG1Uebung/main.cpp ../CG1Uebung/CgEvents/CgColorChangeEvent.cpp ../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.cpp ../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.cpp ../CG1Uebung/CgEvents/CgSchritteAusfuehrenEvent.cpp ../CG1Uebung/CgEvents/CgSchritteResetEvent.cpp ../CG1Uebung/CgQtViewer/CGQtGLRenderWidget.cpp ../CG1Uebung/CgQtViewer/CgQtGui.cpp ../CG1Uebung/CgBase/CgObservable.cpp ../CG1Uebung/CgEvents/CgMouseEvent.cpp ../CG1Uebung/CgQtViewer/CgQtMainApplication.cpp ../CG1Uebung/CgSceneGraph/CgDice.cpp ../CG1Uebung/CgSceneGraph/CgPolyline.cpp ../CG1Uebung/CgSceneGraph/CgRotation.cpp ../CG1Uebung/CgSceneGraph/CgSceneControl.cpp ../CG1Uebung/CgEvents/CgKeyEvent.cpp ../CG1Uebung/CgSceneGraph/CgExampleTriangle.cpp ../CG1Uebung/CgQtViewer/CgQtGlBufferObject.cpp ../CG1Uebung/CgQtViewer/CgTrackball.cpp ../CG1Uebung/CgEvents/CgWindowResizeEvent.cpp ../CG1Uebung/CgEvents/CgLoadObjFileEvent.cpp ../CG1Uebung/CgUtils/Calc.cpp ../CG1Uebung/CgUtils/ObjLoader.cpp ../CG1Uebung/CgEvents/CgTrackballEvent.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -578,6 +585,12 @@ CgPolyline.o: ../CG1Uebung/CgSceneGraph/CgPolyline.cpp ../CG1Uebung/CgSceneGraph
 		../CG1Uebung/CgBase/CgBaseRenderableObject.h \
 		../CG1Uebung/CgBase/CgEnums.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgPolyline.o ../CG1Uebung/CgSceneGraph/CgPolyline.cpp
+
+CgRotation.o: ../CG1Uebung/CgSceneGraph/CgRotation.cpp ../CG1Uebung/CgSceneGraph/CgRotation.h \
+		../CG1Uebung/CgBase/CgBaseTriangleMesh.h \
+		../CG1Uebung/CgBase/CgBaseRenderableObject.h \
+		../CG1Uebung/CgBase/CgEnums.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgRotation.o ../CG1Uebung/CgSceneGraph/CgRotation.cpp
 
 CgSceneControl.o: ../CG1Uebung/CgSceneGraph/CgSceneControl.cpp ../CG1Uebung/CgSceneGraph/CgSceneControl.h \
 		../CG1Uebung/CgBase/CgObserver.h \

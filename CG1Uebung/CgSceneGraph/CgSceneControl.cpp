@@ -177,7 +177,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         auto id = m_polyline->getID();
         delete m_polyline;
         m_polyline = new CgPolyline(id);
-
+        m_renderer->init(m_polyline);
         m_renderer->redraw();
 
         std::cout << "Reset ausgeführt" << std::endl;
@@ -188,7 +188,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgSchritteAusfuehrenEvent* ev = (CgSchritteAusfuehrenEvent*)e;
 
         m_polyline->startLaneRiesenfeldAlgo(ev->getSchritte());
-
+        m_renderer->init(m_polyline);
         m_renderer->redraw();
 
         for(glm::vec3 s : m_polyline->getVertices())

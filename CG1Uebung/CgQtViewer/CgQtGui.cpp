@@ -257,7 +257,7 @@ void CgQtGui::createOptionPanelUebung01(QWidget* parent)
     mySpinBoxRed = new QSpinBox();
     tab3_control->addWidget(mySpinBoxRed);
     mySpinBoxRed->setMinimum(0);
-    mySpinBoxRed->setMaximum(256);
+    mySpinBoxRed->setMaximum(255);
     mySpinBoxRed->setValue(255);
     mySpinBoxRed->setPrefix("Rotanteil:  ");
     connect(mySpinBoxRed, SIGNAL(valueChanged(int) ), this, SLOT(slotMySpinBox1Changed()) );
@@ -265,7 +265,7 @@ void CgQtGui::createOptionPanelUebung01(QWidget* parent)
     mySpinBoxGreen = new QSpinBox();
     tab3_control->addWidget(mySpinBoxGreen);
     mySpinBoxGreen->setMinimum(0);
-    mySpinBoxGreen->setMaximum(256);
+    mySpinBoxGreen->setMaximum(255);
     mySpinBoxGreen->setValue(255);
     mySpinBoxGreen->setPrefix("Grünanteil:  ");
     connect(mySpinBoxGreen, SIGNAL(valueChanged(int) ), this, SLOT(slotMySpinBox1Changed()) );
@@ -273,7 +273,7 @@ void CgQtGui::createOptionPanelUebung01(QWidget* parent)
     mySpinBoxBlue = new QSpinBox();
     tab3_control->addWidget(mySpinBoxBlue);
     mySpinBoxBlue->setMinimum(0);
-    mySpinBoxBlue->setMaximum(256);
+    mySpinBoxBlue->setMaximum(255);
     mySpinBoxBlue->setValue(255);
     mySpinBoxBlue->setPrefix("Blauanteil:  ");
     connect(mySpinBoxBlue, SIGNAL(valueChanged(int) ), this, SLOT(slotMySpinBox1Changed()) );

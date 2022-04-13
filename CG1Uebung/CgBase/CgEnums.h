@@ -383,7 +383,7 @@ typedef enum ObjectType {
     TriangleMesh		=0x00000004,
     PolygonalMesh		=0x00000008,
     //the following are unused, feel free to change
-    SomeOtherType1        		=0x00000010,
+    Dice                =0x00000010,
     SomeOtherType2		=0x00000020,
     SomeOtherType3		=0x00000040,
     SomeOtherType4		=0x00000080,
