@@ -11,6 +11,7 @@ class CgBaseRenderer;
 class CgExampleTriangle;
 class CgDice;
 class CgPolyline;
+class CgRotation;
 
 class CgSceneControl : public CgObserver, public CgBaseSceneControl
 {
@@ -27,6 +28,7 @@ private:
 
     CgDice* m_dice;
     CgPolyline* m_polyline;
+    CgRotation* m_rotation;
     glm::mat4 m_current_transformation;
     glm::mat4 m_trackball_rotation;
     glm::mat4 m_lookAt_matrix;

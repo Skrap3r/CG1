@@ -2,6 +2,7 @@
 #include "CgBase/CgEnums.h"
 #include "CgUtils/ObjLoader.h"
 #include <iostream>
+#include "glm/gtx/string_cast.hpp"
 
 CgRotation::CgRotation():
     m_type(Cg::TriangleMesh),
@@ -16,15 +17,27 @@ CgRotation::CgRotation(int id, std::vector<glm::vec3> line_vertices, int segment
 {
     int size_line = line_vertices.size();
     int size_vertices = segmente * (size_line+1);
-    m_vertices.resize(size_vertices);
+    //m_vertices.resize(size_vertices);
 
     float angle_per_segment = (2*M_PI)/segmente;
     glm::mat3x3 rotmat_y = glm::mat3x3(glm::vec3(cos(angle_per_segment), 0.0 , -1*sin(angle_per_segment)), glm::vec3(0.0, 1.0, 0.0), glm::vec3(sin(angle_per_segment), 0.0, cos(angle_per_segment)));
+
+    for(auto s : m_vertices)
+    {
+        std::cout << glm::to_string(s) << std::endl;
+    }
+    std::cout << std::endl;
 
     for(int i = 0; i < size_line; i++)
     {
         m_vertices.push_back(line_vertices.at(i));
     }
+
+    for(auto s : m_vertices)
+    {
+        std::cout << glm::to_string(s) << std::endl;
+    }
+    std::cout << std::endl;
 
     for(int i = 1; i < segmente+1; i++)
     {
@@ -32,6 +45,11 @@ CgRotation::CgRotation(int id, std::vector<glm::vec3> line_vertices, int segment
         {
             m_vertices.push_back(m_vertices.at(j - size_line) * rotmat_y);
         }
+    }
+
+    for(auto s : m_vertices)
+    {
+        std::cout << glm::to_string(s) << std::endl;
     }
 }
 

@@ -16,10 +16,10 @@ CgPolyline::CgPolyline(int id):
     m_type(Cg::Polyline),
     m_id(id)
 {
-    m_vertices.push_back(glm::vec3(1.0,0.0,0.0));
+    m_vertices.push_back(glm::vec3(0.0,2.0,0.0));
+    m_vertices.push_back(glm::vec3(0.5,1.5,0));
     m_vertices.push_back(glm::vec3(0.5,0.5,0));
-    m_vertices.push_back(glm::vec3(-0.5,0.5,0));
-    m_vertices.push_back(glm::vec3(-1.0,0.0,0.0));
+    m_vertices.push_back(glm::vec3(0.0,0.0,0.0));
 
     m_lineWidth = 1;
 }

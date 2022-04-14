@@ -10,6 +10,7 @@
 #include "../CgEvents/CgSchritteResetEvent.h"
 #include "../CgEvents/CgRotationskoerperErstellenEvent.h"
 #include "../CgEvents/CgRotationskoerperNormalenEvent.h"
+#include "CgRotation.h"
 #include "CgBase/CgBaseRenderer.h"
 #include "CgExampleTriangle.h"
 #include "CgPolyline.h"
@@ -29,16 +30,20 @@ CgSceneControl::CgSceneControl()
 {
     m_dice=nullptr;
     m_polyline = nullptr;
+    m_rotation = nullptr;
     m_current_transformation=glm::mat4(1.);
     m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
     m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
     m_trackball_rotation=glm::mat4(1.);
 
+
+
     if(draw_polyline)
     {
         m_polyline = new CgPolyline(32);
+        m_rotation = new CgRotation(50, m_polyline->getVertices(), 4);
 
-        std::cout <<  m_polyline->getVertices().size() << std::endl;
+        //std::cout <<  m_polyline->getVertices().size() << std::endl;
     }
 
     if (draw_dice)
