@@ -6,39 +6,35 @@
 
 CgRotation::CgRotation():
     m_type(Cg::TriangleMesh),
-    m_id(44)
+    m_id(++nextID)
 {
 
 }
 
-CgRotation::CgRotation(int id, std::vector<glm::vec3> line_vertices, int segmente):
+CgRotation::CgRotation(std::vector<glm::vec3> line_vertices, int segmente):
     m_type(Cg::TriangleMesh),
-    m_id(id)
+    m_id(++nextID)
 {
     int size_line = line_vertices.size();
-    int size_vertices = segmente * (size_line+1);
-    //m_vertices.resize(size_vertices);
 
     float angle_per_segment = (2*M_PI)/segmente;
     glm::mat3x3 rotmat_y = glm::mat3x3(glm::vec3(cos(angle_per_segment), 0.0 , -1*sin(angle_per_segment)), glm::vec3(0.0, 1.0, 0.0), glm::vec3(sin(angle_per_segment), 0.0, cos(angle_per_segment)));
 
-    for(auto s : m_vertices)
-    {
-        std::cout << glm::to_string(s) << std::endl;
-    }
-    std::cout << std::endl;
-
+    //Kopiere die ersten Punkte ins Objekt
     for(int i = 0; i < size_line; i++)
     {
         m_vertices.push_back(line_vertices.at(i));
     }
 
+    /*
     for(auto s : m_vertices)
     {
         std::cout << glm::to_string(s) << std::endl;
     }
     std::cout << std::endl;
+    */
 
+    //Berechen alle weitere Punkte und speichere im Objekt
     for(int i = 1; i < segmente+1; i++)
     {
         for(int j = i*size_line; j < i*size_line+size_line; j++)
@@ -47,10 +43,28 @@ CgRotation::CgRotation(int id, std::vector<glm::vec3> line_vertices, int segment
         }
     }
 
+    /*
     for(auto s : m_vertices)
     {
         std::cout << glm::to_string(s) << std::endl;
     }
+    */
+
+    //Bilde Dreiecke gegen den Uhrzeigersinn
+    for(int i = 0; i < m_vertices.size()-size_line; i++)
+    {
+        if((i+1)%size_line != 0){
+            m_triangle_indices.push_back(i);
+            m_triangle_indices.push_back(i+size_line);
+            m_triangle_indices.push_back(i+1);
+            m_triangle_indices.push_back(i+1);
+            m_triangle_indices.push_back(i+size_line);
+            m_triangle_indices.push_back(i+size_line+1);
+        }
+    }
+
+    //std::cout << m_id << std::endl;
+    //std::cout << m_vertices.size() << " " << m_triangle_indices.size() << std::endl;
 }
 
 CgRotation::~CgRotation()
@@ -86,6 +100,11 @@ void CgRotation::init( std::string filename)
     loader.getPositionData(m_vertices);
     loader.getNormalData(m_vertex_normals);
     loader.getFaceIndexData(m_triangle_indices);
+}
+
+void CgRotation::addFaceNormals(glm::vec3& normal)
+{
+    m_face_normals.push_back(normal);
 }
 
 const std::vector<glm::vec3>& CgRotation::getVertices() const

@@ -4,32 +4,40 @@
 
 CgPolyline::CgPolyline():
     m_type(Cg::Polyline),
-    m_id(44)
+    m_id(++nextID)
 {
-    m_vertices.push_back(glm::vec3(0.1,0.1,0.1));
-    m_vertices.push_back(glm::vec3(-0.1,0.1,0.1));
+    m_vertices.push_back(glm::vec3(0.5,1.0,0.0));
+    m_vertices.push_back(glm::vec3(1.0,0.5,0));
+    m_vertices.push_back(glm::vec3(1.0,-0.5,0));
+    m_vertices.push_back(glm::vec3(0.5,-1.0,0.0));
+    //m_vertices.push_back(glm::vec3(1.0,-1.5,0.0));
 
     m_lineWidth = 1;
+    //std::cout << m_id << std::endl;
 }
 
 CgPolyline::CgPolyline(int id):
     m_type(Cg::Polyline),
     m_id(id)
 {
-    m_vertices.push_back(glm::vec3(0.0,2.0,0.0));
-    m_vertices.push_back(glm::vec3(0.5,1.5,0));
-    m_vertices.push_back(glm::vec3(0.5,0.5,0));
-    m_vertices.push_back(glm::vec3(0.0,0.0,0.0));
+    m_vertices.push_back(glm::vec3(0.5,1.0,0.0));
+    m_vertices.push_back(glm::vec3(1.0,0.5,0));
+    m_vertices.push_back(glm::vec3(1.0,-0.5,0));
+    m_vertices.push_back(glm::vec3(0.5,-1.0,0.0));
+    //m_vertices.push_back(glm::vec3(1.0,-1.5,0.0));
 
     m_lineWidth = 1;
+    //std::cout << m_id << std::endl;
 }
 
-CgPolyline::CgPolyline(int id, std::vector<glm::vec3> arg_verts):
+CgPolyline::CgPolyline(std::vector<glm::vec3> arg_verts):
     m_type(Cg::Polyline),
-    m_id(id)
+    m_id(++nextID)
 {
-    m_vertices.push_back(arg_verts.at(0));
-    m_vertices.push_back(arg_verts.at(1));
+    for(auto s : arg_verts)
+    {
+        m_vertices.push_back(s);
+    }
 
     m_lineWidth = 1;
 }

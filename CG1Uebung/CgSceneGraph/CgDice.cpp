@@ -6,16 +6,65 @@
 
 CgDice::CgDice():
     m_type(Cg::TriangleMesh),
-    m_id(42)
+    m_id(++nextID)
 {
-    m_vertices.push_back(glm::vec3(-0.5,0.0,0.0));
-    m_vertices.push_back(glm::vec3(0.5,-0.5,0.0));
-    m_vertices.push_back(glm::vec3(0.0,0.5,0.0));
+    m_vertices.push_back(glm::vec3(-0.5,-0.5,-0.5));
+    m_vertices.push_back(glm::vec3(-0.5,0.5,-0.5));
+    m_vertices.push_back(glm::vec3(0.5,0.5,-0.5));
+    m_vertices.push_back(glm::vec3(0.5,-0.5,-0.5));
+
+    m_vertices.push_back(glm::vec3(-0.5,-0.5,0.5));
+    m_vertices.push_back(glm::vec3(-0.5,0.5,0.5));
+    m_vertices.push_back(glm::vec3(0.5,0.5,0.5));
+    m_vertices.push_back(glm::vec3(0.5,-0.5,0.5));
+
+    m_triangle_indices.push_back(2);
+    m_triangle_indices.push_back(3);
+    m_triangle_indices.push_back(1);
+    m_triangle_indices.push_back(1);
+    m_triangle_indices.push_back(3);
+    m_triangle_indices.push_back(0);
 
     m_triangle_indices.push_back(0);
+    m_triangle_indices.push_back(4);
     m_triangle_indices.push_back(1);
-    m_triangle_indices.push_back(2);
+    m_triangle_indices.push_back(1);
+    m_triangle_indices.push_back(4);
+    m_triangle_indices.push_back(5);
 
+    m_triangle_indices.push_back(2);
+    m_triangle_indices.push_back(6);
+    m_triangle_indices.push_back(3);
+    m_triangle_indices.push_back(3);
+    m_triangle_indices.push_back(6);
+    m_triangle_indices.push_back(7);
+
+    m_triangle_indices.push_back(3);
+    m_triangle_indices.push_back(7);
+    m_triangle_indices.push_back(0);
+    m_triangle_indices.push_back(0);
+    m_triangle_indices.push_back(7);
+    m_triangle_indices.push_back(4);
+    m_triangle_indices.push_back(1);
+    m_triangle_indices.push_back(5);
+    m_triangle_indices.push_back(2);
+    m_triangle_indices.push_back(2);
+    m_triangle_indices.push_back(5);
+    m_triangle_indices.push_back(6);
+
+    m_triangle_indices.push_back(7);
+    m_triangle_indices.push_back(6);
+    m_triangle_indices.push_back(4);
+    m_triangle_indices.push_back(4);
+    m_triangle_indices.push_back(6);
+    m_triangle_indices.push_back(5);
+
+    m_vertex_normals.push_back(glm::vec3(0.0,0.0,-1.0));
+    m_vertex_normals.push_back(glm::vec3(0.0,0.0,-1.0));
+    m_vertex_normals.push_back(glm::vec3(0.0,0.0,-1.0));
+    m_vertex_normals.push_back(glm::vec3(0.0,0.0,-1.0));
+
+    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
     m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
     m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
     m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
@@ -92,27 +141,28 @@ CgDice::CgDice(int id):
 void CgDice::calculate_normals(void)
 {
     //normalen Zeichnen
-    glm::vec3 schwerpunkt;
-    glm::vec3 normal;
     glm::vec3 a;
     glm::vec3 b;
     glm::vec3 c;
+    glm::vec3 schwerpunkt;
+    glm::vec3 normal;
+    std::vector<glm::vec3> temp;
 
     for(int i = 0; i < getTriangleIndices().size(); i+=3){
         a = m_vertices.at(m_triangle_indices.at(i));
         b = m_vertices.at(m_triangle_indices.at(i+1));
         c = m_vertices.at(m_triangle_indices.at(i+2));
 
-        schwerpunkt = (a + b + c)/glm::vec3(3.0,3.0,3.0);
+        schwerpunkt = (a + b + c)/3.0f;
 
         normal = (glm::cross((a-b), (a-c)));
-        normal = (1/glm::length(normal)) * normal;
+        normal = (1/glm::length(normal)) * normal; //Normieren Länge = 1
 
-        std::vector<glm::vec3> temp;
+        temp.clear();
         temp.push_back(schwerpunkt);
         temp.push_back(normal + schwerpunkt);
 
-        m_normals.push_back(new CgPolyline(i, temp));
+        m_normals.push_back(new CgPolyline(temp));
     }
 }
 

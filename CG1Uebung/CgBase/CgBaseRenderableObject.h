@@ -8,7 +8,7 @@
 class CgBaseRenderableObject
 {
 
-    public:
+public:
 
     virtual ~CgBaseRenderableObject(){};
 
@@ -16,14 +16,11 @@ class CgBaseRenderableObject
     virtual Cg::ObjectType getType() const  =0;
     virtual unsigned int getID() const  =0;
 
-
 protected:
-
-
+    static int nextID;
 };
 
-
-
+//int CgBaseRenderableObject::nextID = 0;
 
 #endif // CGBASERENDERABLEOBJECT
 

@@ -25,10 +25,12 @@ public:
 
 private:
     CgBaseRenderer* m_renderer;
-
     CgDice* m_dice;
     CgPolyline* m_polyline;
     CgRotation* m_rotation;
+
+    std::vector<CgPolyline*> m_normalsRotation;
+
     glm::mat4 m_current_transformation;
     glm::mat4 m_trackball_rotation;
     glm::mat4 m_lookAt_matrix;

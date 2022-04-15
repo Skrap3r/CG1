@@ -189,7 +189,7 @@ void CgQtGui::createOptionPanelUebung02(QWidget* parent)
     tab4_control->addWidget(mySpinBoxSegmente);
     mySpinBoxSegmente->setMinimum(1);
     mySpinBoxSegmente->setMaximum(50);
-    mySpinBoxSegmente->setValue(1);
+    mySpinBoxSegmente->setValue(4);
     // mySpinBoxSegmente->setSuffix("   suffix");
     mySpinBoxSegmente->setPrefix("Segmente:  ");
     connect(mySpinBoxSegmente, SIGNAL(valueChanged(int) ), this, SLOT(slotMySpinBox1Changed()) );

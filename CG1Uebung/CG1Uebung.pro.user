@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.0, 2022-04-13T17:01:16. -->
+<!-- Written by QtCreator 4.11.0, 2022-04-14T18:14:15. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -189,9 +189,8 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">CG1Uebung2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/mnt/hgfs/Git/CG1/CG1Uebung/CG1Uebung.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/mnt/hgfs/Git/CG1/CG1Uebung/CG1Uebung.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/mnt/hgfs/Git/6.Semester/CG1/CG1Uebung/CG1Uebung.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/mnt/hgfs/Git/6.Semester/CG1/CG1Uebung/CG1Uebung.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>

@@ -40,15 +40,13 @@ CgSceneControl::CgSceneControl()
 
     if(draw_polyline)
     {
-        m_polyline = new CgPolyline(32);
-        m_rotation = new CgRotation(50, m_polyline->getVertices(), 4);
-
+        m_polyline = new CgPolyline();
         //std::cout <<  m_polyline->getVertices().size() << std::endl;
     }
 
     if (draw_dice)
     {
-        m_dice = new CgDice(31);
+        m_dice = new CgDice();
         if(draw_dice_normals)
         {
             m_dice->calculate_normals();
@@ -59,6 +57,19 @@ CgSceneControl::CgSceneControl()
 
 CgSceneControl::~CgSceneControl()
 {
+    if(m_rotation != NULL)
+    {
+        delete m_rotation;
+    }
+
+    if(!m_normalsRotation.empty())
+    {
+        for(auto s : m_normalsRotation)
+        {
+            delete s;
+        }
+    }
+
     if (m_polyline != NULL && draw_polyline)
     {
         delete m_polyline;
@@ -130,6 +141,19 @@ void CgSceneControl::renderObjects()
 
 
 
+    if(!m_normalsRotation.empty())
+    {
+        for(auto s : m_normalsRotation)
+        {
+            m_renderer->render(s);
+        }
+    }
+
+    if(m_rotation!=NULL)
+    {
+        m_renderer->render(m_rotation);
+    }
+
     if(m_polyline!=NULL)
     {
         m_renderer->render(m_polyline);
@@ -163,14 +187,66 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         if (ev->getZeichnen())
         {
-            std::cout << "Normalen gezeichnen" << std::endl;
+            glm::vec3 a;
+            glm::vec3 b;
+            glm::vec3 c;
+            glm::vec3 normal;
+            glm::vec3 schwerpunkt;
+            std::vector<glm::vec3> temp;
+
+            for(int i = 0; i < m_rotation->getTriangleIndices().size(); i+=3)
+            {
+                a = m_rotation->getVertices().at(m_rotation->getTriangleIndices().at(i));
+                b = m_rotation->getVertices().at(m_rotation->getTriangleIndices().at(i+1));
+                c = m_rotation->getVertices().at(m_rotation->getTriangleIndices().at(i+2));
+
+                schwerpunkt = (a + b + c)/3.0f;
+
+                normal = (glm::cross((a-b), (a-c)));
+                normal = (1/glm::length(normal)) * normal; //Normieren Länge = 1
+                m_rotation->addFaceNormals(normal);
+
+                temp.clear();
+                temp.push_back(schwerpunkt);
+                temp.push_back(normal + schwerpunkt);
+
+                m_normalsRotation.push_back(new CgPolyline(temp));
+            }
+
+            if(!m_normalsRotation.empty())
+            {
+                for(auto s : m_normalsRotation)
+                {
+                    m_renderer->init(s);
+                }
+            }
+            m_renderer->redraw();
+
+            std::cout << "Normalen gezeichnet" << std::endl;
         } else {
+
+            m_normalsRotation.clear();
+
+            m_renderer->redraw();
+
             std::cout << "Normalen gelöscht" << std::endl;
         }
     }
 
     if(e->getType() & Cg::CgRotationskoerperErstellenEvent){
         CgRotationskoerperErstellenEvent* ev = (CgRotationskoerperErstellenEvent*)e;
+
+        /*
+        for(glm::vec3 s : m_polyline->getVertices())
+        {
+            std::cout << glm::to_string(s) << std::endl;
+        }
+        */
+
+        delete m_rotation;
+        m_rotation = new CgRotation(m_polyline->getVertices(), ev->getSegmente());
+        m_renderer->init(m_rotation);
+        m_renderer->redraw();
 
         std::cout << "Rotationskörper Erstellung gestartet, Anzahl Segmente: " << ev->getSegmente() << std::endl;
 
@@ -196,10 +272,12 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_renderer->init(m_polyline);
         m_renderer->redraw();
 
+        /*
         for(glm::vec3 s : m_polyline->getVertices())
         {
             std::cout << glm::to_string(s) << std::endl;
         }
+        */
         //std::cout << "Schritte ausgeführt: " << ev->getSchritte() << std::endl;
     }
 

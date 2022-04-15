@@ -10,7 +10,7 @@ class CgRotation : public CgBaseTriangleMesh
 {
 public:
     CgRotation();
-    CgRotation(int id, std::vector<glm::vec3> line_vertices, int segmente);
+    CgRotation(std::vector<glm::vec3> line_vertices, int segmente);
     ~CgRotation();
 
     //inherited from CgBaseRenderableObject
@@ -23,6 +23,8 @@ public:
     const std::vector<glm::vec3>& getVertices()     const;
     const std::vector<glm::vec3>& getVertexNormals() const;
     const std::vector<glm::vec3>& getVertexColors() const;
+
+    void addFaceNormals(glm::vec3&);
 
     const std::vector<glm::vec2>& getVertexTexCoords() const;
 

@@ -5,6 +5,7 @@ QMAKE_CXXFLAGS += -std=c++11
 CONFIG += c++11
 
 SOURCES += main.cpp \
+    CgBase/CgBaseRenderableObject.cpp \
     CgEvents/CgColorChangeEvent.cpp \
     CgEvents/CgRotationskoerperErstellenEvent.cpp \
     CgEvents/CgRotationskoerperNormalenEvent.cpp \

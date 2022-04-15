@@ -7,7 +7,7 @@ class CgPolyline : public CgBasePolyline
 public:
     CgPolyline();
     CgPolyline(int);
-    CgPolyline(int, std::vector<glm::vec3>);
+    CgPolyline(std::vector<glm::vec3>);
 
     ~CgPolyline();
 
