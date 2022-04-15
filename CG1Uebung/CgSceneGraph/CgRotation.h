@@ -23,8 +23,12 @@ public:
     const std::vector<glm::vec3>& getVertices()     const;
     const std::vector<glm::vec3>& getVertexNormals() const;
     const std::vector<glm::vec3>& getVertexColors() const;
+    const std::vector<glm::vec3>& getFaceCenters() const;
 
     void addFaceNormals(glm::vec3&);
+
+    const void calculateFaceNormals();
+    const void calculateFaceCenters();
 
     const std::vector<glm::vec2>& getVertexTexCoords() const;
 
@@ -46,6 +50,7 @@ private:
     std::vector<unsigned int>  m_triangle_indices;
 
     std::vector<glm::vec3> m_face_normals;
+    std::vector<glm::vec3> m_face_centers;
     std::vector<glm::vec3> m_face_colors;
 
     const Cg::ObjectType m_type;

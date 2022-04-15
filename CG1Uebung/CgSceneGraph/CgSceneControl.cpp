@@ -185,8 +185,26 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() & Cg::CgRotationskoerperNormalenEvent){
         CgRotationskoerperNormalenEvent* ev = (CgRotationskoerperNormalenEvent*)e;
 
-        if (ev->getZeichnen())
+        if(m_rotation != NULL)
         {
+            if (ev->getZeichnen())
+            {
+                m_rotation->calculateFaceCenters();
+                std::vector<glm::vec3> face_centers = m_rotation->getFaceCenters();
+                m_rotation->calculateFaceNormals();
+                std::vector<glm::vec3> face_normals = m_rotation->getFaceNormals();
+
+                std::vector<glm::vec3> temp;
+                for (int i= 0; i < face_centers.size(); i++)
+                {
+                    temp.clear();
+                    temp.push_back(face_centers.at(i));
+                    temp.push_back(face_centers.at(i) + face_normals.at(i));
+
+                    m_normalsRotation.push_back(new CgPolyline(temp));
+                }
+
+                /*
             glm::vec3 a;
             glm::vec3 b;
             glm::vec3 c;
@@ -212,24 +230,26 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
                 m_normalsRotation.push_back(new CgPolyline(temp));
             }
+            */
 
-            if(!m_normalsRotation.empty())
-            {
-                for(auto s : m_normalsRotation)
+                if(!m_normalsRotation.empty())
                 {
-                    m_renderer->init(s);
+                    for(auto s : m_normalsRotation)
+                    {
+                        m_renderer->init(s);
+                    }
                 }
+                m_renderer->redraw();
+
+                std::cout << "Normalen gezeichnet" << std::endl;
+            } else {
+
+                m_normalsRotation.clear();
+
+                m_renderer->redraw();
+
+                std::cout << "Normalen gelöscht" << std::endl;
             }
-            m_renderer->redraw();
-
-            std::cout << "Normalen gezeichnet" << std::endl;
-        } else {
-
-            m_normalsRotation.clear();
-
-            m_renderer->redraw();
-
-            std::cout << "Normalen gelöscht" << std::endl;
         }
     }
 

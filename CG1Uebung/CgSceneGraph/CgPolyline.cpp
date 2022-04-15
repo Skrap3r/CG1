@@ -40,6 +40,7 @@ CgPolyline::CgPolyline(std::vector<glm::vec3> arg_verts):
     }
 
     m_lineWidth = 1;
+    //std::cout << m_id << std::endl;
 }
 
 void CgPolyline::startLaneRiesenfeldAlgo(int schritte)

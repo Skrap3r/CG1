@@ -107,6 +107,30 @@ void CgRotation::addFaceNormals(glm::vec3& normal)
     m_face_normals.push_back(normal);
 }
 
+const void CgRotation::calculateFaceCenters()
+{
+    for(int i = 0; i < m_triangle_indices.size(); i+=3)
+    {
+        m_face_centers.push_back((m_vertices.at(m_triangle_indices.at(i)) + m_vertices.at(m_triangle_indices.at(i+1)) + m_vertices.at(m_triangle_indices.at(i+2)))/3.0f);
+    }
+}
+
+const void CgRotation::calculateFaceNormals()
+{
+    glm::vec3 normal;
+    for(int i = 0; i < m_triangle_indices.size(); i+=3)
+    {
+        normal = (glm::cross((m_vertices.at(m_triangle_indices.at(i)) - m_vertices.at(m_triangle_indices.at(i+1))) , (m_vertices.at(m_triangle_indices.at(i)) - m_vertices.at(m_triangle_indices.at(i+2)))));
+        normal = (1/glm::length(normal)) * normal; //Normieren Länge = 1
+        m_face_normals.push_back(normal);
+    }
+}
+
+const std::vector<glm::vec3>& CgRotation::getFaceCenters() const
+{
+    return m_face_centers;
+}
+
 const std::vector<glm::vec3>& CgRotation::getVertices() const
 {
     return m_vertices;
