@@ -13,7 +13,8 @@ CgRotation::CgRotation():
 
 CgRotation::CgRotation(std::vector<glm::vec3> line_vertices, int segmente):
     m_type(Cg::TriangleMesh),
-    m_id(++nextID)
+    m_id(++nextID),
+    line_points_size(line_vertices.size())
 {
     int size_line = line_vertices.size();
 
@@ -63,6 +64,7 @@ CgRotation::CgRotation(std::vector<glm::vec3> line_vertices, int segmente):
         }
     }
 
+
     //std::cout << m_id << std::endl;
     //std::cout << m_vertices.size() << " " << m_triangle_indices.size() << std::endl;
 }
@@ -105,6 +107,31 @@ void CgRotation::init( std::string filename)
 void CgRotation::addFaceNormals(glm::vec3& normal)
 {
     m_face_normals.push_back(normal);
+}
+
+const void CgRotation::calculateVertexNormals()
+{
+    m_vertex_normals.clear();
+    m_face_normals.clear();
+    calculateFaceNormals();
+    glm::vec3 temp;
+    float count;
+
+    //std::cout << line_points_size << std::endl;
+    for(int i = 0; i < m_vertices.size() - line_points_size; i++)
+    {
+        count = 0;
+        temp = glm::vec3(0,0,0);
+        for(int j = 0; j < m_triangle_indices.size(); j+=3)
+        {
+            if(m_triangle_indices.at(j) == i || m_triangle_indices.at(j+1) == i|| m_triangle_indices.at(j+2) == i)
+            {
+                temp += m_face_normals.at(j/3);
+                count++;
+            }
+        }
+        m_vertex_normals.push_back(temp/count);
+    }
 }
 
 const void CgRotation::calculateFaceCenters()

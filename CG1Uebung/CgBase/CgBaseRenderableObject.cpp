@@ -1,3 +1,3 @@
 #include "CgBaseRenderableObject.h"
 
-int CgBaseRenderableObject::nextID = 0;
+unsigned int CgBaseRenderableObject::nextID = 0;

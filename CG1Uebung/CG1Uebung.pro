@@ -26,7 +26,6 @@ SOURCES += main.cpp \
     CgQtViewer/CgTrackball.cpp \
     CgEvents/CgWindowResizeEvent.cpp \
     CgEvents/CgLoadObjFileEvent.cpp \
-    CgUtils/Calc.cpp \
     CgUtils/ObjLoader.cpp \
     CgEvents/CgTrackballEvent.cpp
 

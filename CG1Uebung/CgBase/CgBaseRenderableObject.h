@@ -17,7 +17,7 @@ public:
     virtual unsigned int getID() const  =0;
 
 protected:
-    static int nextID;
+    static unsigned int nextID;
 };
 
 //int CgBaseRenderableObject::nextID = 0;

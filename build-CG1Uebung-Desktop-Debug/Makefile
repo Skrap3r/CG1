@@ -53,6 +53,7 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../CG1Uebung/main.cpp \
+		../CG1Uebung/CgBase/CgBaseRenderableObject.cpp \
 		../CG1Uebung/CgEvents/CgColorChangeEvent.cpp \
 		../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.cpp \
 		../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.cpp \
@@ -73,12 +74,12 @@ SOURCES       = ../CG1Uebung/main.cpp \
 		../CG1Uebung/CgQtViewer/CgTrackball.cpp \
 		../CG1Uebung/CgEvents/CgWindowResizeEvent.cpp \
 		../CG1Uebung/CgEvents/CgLoadObjFileEvent.cpp \
-		../CG1Uebung/CgUtils/Calc.cpp \
 		../CG1Uebung/CgUtils/ObjLoader.cpp \
 		../CG1Uebung/CgEvents/CgTrackballEvent.cpp moc_CgQtGLRenderWidget.cpp \
 		moc_CgQtGui.cpp \
 		moc_CgQtMainApplication.cpp
 OBJECTS       = main.o \
+		CgBaseRenderableObject.o \
 		CgColorChangeEvent.o \
 		CgRotationskoerperErstellenEvent.o \
 		CgRotationskoerperNormalenEvent.o \
@@ -99,7 +100,6 @@ OBJECTS       = main.o \
 		CgTrackball.o \
 		CgWindowResizeEvent.o \
 		CgLoadObjFileEvent.o \
-		Calc.o \
 		ObjLoader.o \
 		CgTrackballEvent.o \
 		moc_CgQtGLRenderWidget.o \
@@ -214,6 +214,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../CG1Uebung/CgUtils/ObjLoader.h \
 		../CG1Uebung/CgBase/CgBaseImage.h \
 		../CG1Uebung/CgEvents/CgTrackballEvent.h ../CG1Uebung/main.cpp \
+		../CG1Uebung/CgBase/CgBaseRenderableObject.cpp \
 		../CG1Uebung/CgEvents/CgColorChangeEvent.cpp \
 		../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.cpp \
 		../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.cpp \
@@ -234,7 +235,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../CG1Uebung/CgQtViewer/CgTrackball.cpp \
 		../CG1Uebung/CgEvents/CgWindowResizeEvent.cpp \
 		../CG1Uebung/CgEvents/CgLoadObjFileEvent.cpp \
-		../CG1Uebung/CgUtils/Calc.cpp \
 		../CG1Uebung/CgUtils/ObjLoader.cpp \
 		../CG1Uebung/CgEvents/CgTrackballEvent.cpp
 QMAKE_TARGET  = CgViewer
@@ -419,7 +419,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../CG1Uebung/CgEvents/CgColorChangeEvent.h ../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.h ../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.h ../CG1Uebung/CgEvents/CgSchritteAusfuehrenEvent.h ../CG1Uebung/CgEvents/CgSchritteResetEvent.h ../CG1Uebung/CgQtViewer/CgQtGLRenderWidget.h ../CG1Uebung/CgQtViewer/CgQtGui.h ../CG1Uebung/CgBase/CgObserver.h ../CG1Uebung/CgBase/CgObservable.h ../CG1Uebung/CgBase/CgBaseEvent.h ../CG1Uebung/CgBase/CgEnums.h ../CG1Uebung/CgEvents/CgMouseEvent.h ../CG1Uebung/CgQtViewer/CgQtMainApplication.h ../CG1Uebung/CgSceneGraph/CgDice.h ../CG1Uebung/CgSceneGraph/CgPolyline.h ../CG1Uebung/CgSceneGraph/CgRotation.h ../CG1Uebung/CgSceneGraph/CgSceneControl.h ../CG1Uebung/CgEvents/CgKeyEvent.h ../CG1Uebung/CgBase/CgBaseRenderer.h ../CG1Uebung/CgBase/CgBaseRenderableObject.h ../CG1Uebung/CgSceneGraph/CgExampleTriangle.h ../CG1Uebung/CgBase/CgBasePointCloud.h ../CG1Uebung/CgBase/CgBaseTriangleMesh.h ../CG1Uebung/CgBase/CgBasePolygonMesh.h ../CG1Uebung/CgBase/CgBasePolyline.h ../CG1Uebung/CgBase/CgBaseSceneControl.h ../CG1Uebung/CgQtViewer/CgQtGlBufferObject.h ../CG1Uebung/CgQtViewer/CgTrackball.h ../CG1Uebung/CgEvents/CgWindowResizeEvent.h ../CG1Uebung/CgEvents/CgLoadObjFileEvent.h ../CG1Uebung/CgUtils/ObjLoader.h ../CG1Uebung/CgBase/CgBaseImage.h ../CG1Uebung/CgEvents/CgTrackballEvent.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../CG1Uebung/main.cpp ../CG1Uebung/CgEvents/CgColorChangeEvent.cpp ../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.cpp ../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.cpp ../CG1Uebung/CgEvents/CgSchritteAusfuehrenEvent.cpp ../CG1Uebung/CgEvents/CgSchritteResetEvent.cpp ../CG1Uebung/CgQtViewer/CGQtGLRenderWidget.cpp ../CG1Uebung/CgQtViewer/CgQtGui.cpp ../CG1Uebung/CgBase/CgObservable.cpp ../CG1Uebung/CgEvents/CgMouseEvent.cpp ../CG1Uebung/CgQtViewer/CgQtMainApplication.cpp ../CG1Uebung/CgSceneGraph/CgDice.cpp ../CG1Uebung/CgSceneGraph/CgPolyline.cpp ../CG1Uebung/CgSceneGraph/CgRotation.cpp ../CG1Uebung/CgSceneGraph/CgSceneControl.cpp ../CG1Uebung/CgEvents/CgKeyEvent.cpp ../CG1Uebung/CgSceneGraph/CgExampleTriangle.cpp ../CG1Uebung/CgQtViewer/CgQtGlBufferObject.cpp ../CG1Uebung/CgQtViewer/CgTrackball.cpp ../CG1Uebung/CgEvents/CgWindowResizeEvent.cpp ../CG1Uebung/CgEvents/CgLoadObjFileEvent.cpp ../CG1Uebung/CgUtils/Calc.cpp ../CG1Uebung/CgUtils/ObjLoader.cpp ../CG1Uebung/CgEvents/CgTrackballEvent.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../CG1Uebung/main.cpp ../CG1Uebung/CgBase/CgBaseRenderableObject.cpp ../CG1Uebung/CgEvents/CgColorChangeEvent.cpp ../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.cpp ../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.cpp ../CG1Uebung/CgEvents/CgSchritteAusfuehrenEvent.cpp ../CG1Uebung/CgEvents/CgSchritteResetEvent.cpp ../CG1Uebung/CgQtViewer/CGQtGLRenderWidget.cpp ../CG1Uebung/CgQtViewer/CgQtGui.cpp ../CG1Uebung/CgBase/CgObservable.cpp ../CG1Uebung/CgEvents/CgMouseEvent.cpp ../CG1Uebung/CgQtViewer/CgQtMainApplication.cpp ../CG1Uebung/CgSceneGraph/CgDice.cpp ../CG1Uebung/CgSceneGraph/CgPolyline.cpp ../CG1Uebung/CgSceneGraph/CgRotation.cpp ../CG1Uebung/CgSceneGraph/CgSceneControl.cpp ../CG1Uebung/CgEvents/CgKeyEvent.cpp ../CG1Uebung/CgSceneGraph/CgExampleTriangle.cpp ../CG1Uebung/CgQtViewer/CgQtGlBufferObject.cpp ../CG1Uebung/CgQtViewer/CgTrackball.cpp ../CG1Uebung/CgEvents/CgWindowResizeEvent.cpp ../CG1Uebung/CgEvents/CgLoadObjFileEvent.cpp ../CG1Uebung/CgUtils/ObjLoader.cpp ../CG1Uebung/CgEvents/CgTrackballEvent.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -498,6 +498,10 @@ main.o: ../CG1Uebung/main.cpp ../CG1Uebung/CgQtViewer/CgQtMainApplication.h \
 		../CG1Uebung/CgBase/CgEnums.h \
 		../CG1Uebung/CgBase/CgBaseSceneControl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../CG1Uebung/main.cpp
+
+CgBaseRenderableObject.o: ../CG1Uebung/CgBase/CgBaseRenderableObject.cpp ../CG1Uebung/CgBase/CgBaseRenderableObject.h \
+		../CG1Uebung/CgBase/CgEnums.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgBaseRenderableObject.o ../CG1Uebung/CgBase/CgBaseRenderableObject.cpp
 
 CgColorChangeEvent.o: ../CG1Uebung/CgEvents/CgColorChangeEvent.cpp ../CG1Uebung/CgEvents/CgColorChangeEvent.h \
 		../CG1Uebung/CgBase/CgBaseEvent.h \
@@ -589,7 +593,8 @@ CgPolyline.o: ../CG1Uebung/CgSceneGraph/CgPolyline.cpp ../CG1Uebung/CgSceneGraph
 CgRotation.o: ../CG1Uebung/CgSceneGraph/CgRotation.cpp ../CG1Uebung/CgSceneGraph/CgRotation.h \
 		../CG1Uebung/CgBase/CgBaseTriangleMesh.h \
 		../CG1Uebung/CgBase/CgBaseRenderableObject.h \
-		../CG1Uebung/CgBase/CgEnums.h
+		../CG1Uebung/CgBase/CgEnums.h \
+		../CG1Uebung/CgUtils/ObjLoader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgRotation.o ../CG1Uebung/CgSceneGraph/CgRotation.cpp
 
 CgSceneControl.o: ../CG1Uebung/CgSceneGraph/CgSceneControl.cpp ../CG1Uebung/CgSceneGraph/CgSceneControl.h \
@@ -607,10 +612,11 @@ CgSceneControl.o: ../CG1Uebung/CgSceneGraph/CgSceneControl.cpp ../CG1Uebung/CgSc
 		../CG1Uebung/CgEvents/CgSchritteResetEvent.h \
 		../CG1Uebung/CgEvents/CgRotationskoerperErstellenEvent.h \
 		../CG1Uebung/CgEvents/CgRotationskoerperNormalenEvent.h \
-		../CG1Uebung/CgBase/CgBaseRenderer.h \
-		../CG1Uebung/CgSceneGraph/CgExampleTriangle.h \
+		../CG1Uebung/CgSceneGraph/CgRotation.h \
 		../CG1Uebung/CgBase/CgBaseTriangleMesh.h \
 		../CG1Uebung/CgBase/CgBaseRenderableObject.h \
+		../CG1Uebung/CgBase/CgBaseRenderer.h \
+		../CG1Uebung/CgSceneGraph/CgExampleTriangle.h \
 		../CG1Uebung/CgSceneGraph/CgPolyline.h \
 		../CG1Uebung/CgBase/CgBasePolyline.h \
 		../CG1Uebung/CgSceneGraph/CgDice.h \
@@ -650,9 +656,6 @@ CgLoadObjFileEvent.o: ../CG1Uebung/CgEvents/CgLoadObjFileEvent.cpp ../CG1Uebung/
 		../CG1Uebung/CgBase/CgBaseEvent.h \
 		../CG1Uebung/CgBase/CgEnums.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgLoadObjFileEvent.o ../CG1Uebung/CgEvents/CgLoadObjFileEvent.cpp
-
-Calc.o: ../CG1Uebung/CgUtils/Calc.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Calc.o ../CG1Uebung/CgUtils/Calc.cpp
 
 ObjLoader.o: ../CG1Uebung/CgUtils/ObjLoader.cpp ../CG1Uebung/CgUtils/ObjLoader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ObjLoader.o ../CG1Uebung/CgUtils/ObjLoader.cpp

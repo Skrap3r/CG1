@@ -37,6 +37,9 @@ CgSceneControl::CgSceneControl()
     m_trackball_rotation=glm::mat4(1.);
 
 
+    /*
+     * Aus sicht des Dreiecks sehen nciht aus sicht des Punktes so kann jeder Punkt seine Normalen kennen
+    */
 
     if(draw_polyline)
     {
@@ -189,48 +192,32 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         {
             if (ev->getZeichnen())
             {
-                m_rotation->calculateFaceCenters();
-                std::vector<glm::vec3> face_centers = m_rotation->getFaceCenters();
-                m_rotation->calculateFaceNormals();
-                std::vector<glm::vec3> face_normals = m_rotation->getFaceNormals();
+                //m_rotation->calculateFaceCenters();
+                //std::vector<glm::vec3> face_centers = m_rotation->getFaceCenters();
+                //m_rotation->calculateFaceNormals();
+                //std::vector<glm::vec3> face_normals = m_rotation->getFaceNormals();
+                m_rotation->calculateVertexNormals();
+                std::vector<glm::vec3> vertex_normals = m_rotation->getVertexNormals();
+                std::vector<glm::vec3> vertices = m_rotation->getVertices();
 
                 std::vector<glm::vec3> temp;
-                for (int i= 0; i < face_centers.size(); i++)
+//                for (int i= 0; i < face_centers.size(); i++)
+//                {
+//                    temp.clear();
+//                    temp.push_back(face_centers.at(i));
+//                    temp.push_back(face_centers.at(i) + face_normals.at(i));
+
+//                    m_normalsRotation.push_back(new CgPolyline(temp));
+//                }
+
+                for(int i = 0; i < vertex_normals.size(); i++)
                 {
                     temp.clear();
-                    temp.push_back(face_centers.at(i));
-                    temp.push_back(face_centers.at(i) + face_normals.at(i));
+                    temp.push_back(vertices.at(i));
+                    temp.push_back(vertices.at(i) + vertex_normals.at(i));
 
                     m_normalsRotation.push_back(new CgPolyline(temp));
                 }
-
-                /*
-            glm::vec3 a;
-            glm::vec3 b;
-            glm::vec3 c;
-            glm::vec3 normal;
-            glm::vec3 schwerpunkt;
-            std::vector<glm::vec3> temp;
-
-            for(int i = 0; i < m_rotation->getTriangleIndices().size(); i+=3)
-            {
-                a = m_rotation->getVertices().at(m_rotation->getTriangleIndices().at(i));
-                b = m_rotation->getVertices().at(m_rotation->getTriangleIndices().at(i+1));
-                c = m_rotation->getVertices().at(m_rotation->getTriangleIndices().at(i+2));
-
-                schwerpunkt = (a + b + c)/3.0f;
-
-                normal = (glm::cross((a-b), (a-c)));
-                normal = (1/glm::length(normal)) * normal; //Normieren Länge = 1
-                m_rotation->addFaceNormals(normal);
-
-                temp.clear();
-                temp.push_back(schwerpunkt);
-                temp.push_back(normal + schwerpunkt);
-
-                m_normalsRotation.push_back(new CgPolyline(temp));
-            }
-            */
 
                 if(!m_normalsRotation.empty())
                 {
@@ -239,17 +226,14 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
                         m_renderer->init(s);
                     }
                 }
-                m_renderer->redraw();
 
                 std::cout << "Normalen gezeichnet" << std::endl;
             } else {
-
                 m_normalsRotation.clear();
-
-                m_renderer->redraw();
-
                 std::cout << "Normalen gelöscht" << std::endl;
             }
+
+            m_renderer->redraw();
         }
     }
 
@@ -266,6 +250,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         delete m_rotation;
         m_rotation = new CgRotation(m_polyline->getVertices(), ev->getSegmente());
         m_renderer->init(m_rotation);
+
         m_renderer->redraw();
 
         std::cout << "Rotationskörper Erstellung gestartet, Anzahl Segmente: " << ev->getSegmente() << std::endl;

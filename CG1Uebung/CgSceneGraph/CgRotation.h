@@ -29,6 +29,7 @@ public:
 
     const void calculateFaceNormals();
     const void calculateFaceCenters();
+    const void calculateVertexNormals();
 
     const std::vector<glm::vec2>& getVertexTexCoords() const;
 
@@ -40,6 +41,7 @@ public:
 
     // Falls eine Farbe pro Polygon spezifiziert ist, so ist es einfarbig in genau dieser Farbe, also auch #Farben=#Faces
     const std::vector<glm::vec3>& getFaceColors() const;
+
 
 private:
     std::vector<glm::vec3> m_vertices;
@@ -55,6 +57,8 @@ private:
 
     const Cg::ObjectType m_type;
     const unsigned int m_id;
+
+    int line_points_size;
 };
 
 inline Cg::ObjectType  CgRotation::getType() const {return m_type;}
