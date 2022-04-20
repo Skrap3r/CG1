@@ -28,6 +28,7 @@ bool draw_polyline = true;
 
 CgSceneControl::CgSceneControl()
 {
+    m_triangle=nullptr;
     m_dice=nullptr;
     m_polyline = nullptr;
     m_rotation = nullptr;
@@ -40,6 +41,8 @@ CgSceneControl::CgSceneControl()
     /*
      * Aus sicht des Dreiecks sehen nciht aus sicht des Punktes so kann jeder Punkt seine Normalen kennen
     */
+
+    //m_triangle= new CgExampleTriangle(21);
 
     if(draw_polyline)
     {
@@ -60,6 +63,9 @@ CgSceneControl::CgSceneControl()
 
 CgSceneControl::~CgSceneControl()
 {
+    if(m_triangle!=NULL)
+        delete m_triangle;
+
     if(m_rotation != NULL)
     {
         delete m_rotation;
@@ -96,6 +102,9 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
 {
     m_renderer=r;
     m_renderer->setSceneControl(this);
+
+    if(m_triangle!=NULL)
+    m_renderer->init(m_triangle);
 
     if(m_polyline!=NULL)
     {
@@ -142,7 +151,8 @@ void CgSceneControl::renderObjects()
     m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
     m_renderer->setUniformValue("normalMatrix",normal_matrix);
 
-
+    if(m_triangle!=NULL)
+    m_renderer->render(m_triangle);
 
     if(!m_normalsRotation.empty())
     {
@@ -247,35 +257,44 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         }
         */
 
-        delete m_rotation;
-        m_rotation = new CgRotation(m_polyline->getVertices(), ev->getSegmente());
-        m_renderer->init(m_rotation);
+        if(m_polyline != NULL)
+        {
+            delete m_rotation;
+            m_rotation = new CgRotation(m_polyline->getVertices(), ev->getSegmente());
+            m_renderer->init(m_rotation);
 
-        m_renderer->redraw();
+            m_renderer->redraw();
+            std::cout << "Rotationskörper Erstellung gestartet, Anzahl Segmente: " << ev->getSegmente() << std::endl;
+        }
 
-        std::cout << "Rotationskörper Erstellung gestartet, Anzahl Segmente: " << ev->getSegmente() << std::endl;
 
     }
 
     if(e->getType() & Cg::CgSchritteResetEvent){
         CgSchritteResetEvent* ev = (CgSchritteResetEvent*)e;
 
-        auto id = m_polyline->getID();
-        delete m_polyline;
-        m_polyline = new CgPolyline(id);
-        m_renderer->init(m_polyline);
-        m_renderer->redraw();
+        if(m_polyline != NULL)
+        {
+            auto id = m_polyline->getID();
+            delete m_polyline;
+            m_polyline = new CgPolyline(id);
+            m_renderer->init(m_polyline);
+            m_renderer->redraw();
 
-        std::cout << "Reset ausgeführt" << std::endl;
+            std::cout << "Reset ausgeführt" << std::endl;
+        }
 
     }
 
     if(e->getType() & Cg::CgSchritteAusfuehrenEvent){
         CgSchritteAusfuehrenEvent* ev = (CgSchritteAusfuehrenEvent*)e;
 
-        m_polyline->startLaneRiesenfeldAlgo(ev->getSchritte());
-        m_renderer->init(m_polyline);
-        m_renderer->redraw();
+        if(m_polyline != NULL)
+        {
+            m_polyline->startLaneRiesenfeldAlgo(ev->getSchritte());
+            m_renderer->init(m_polyline);
+            m_renderer->redraw();
+        }
 
         /*
         for(glm::vec3 s : m_polyline->getVertices())
@@ -371,10 +390,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         std::vector<unsigned int> indx;
         loader->getFaceIndexData(indx);
 
-
-
-        m_dice->init(pos,norm,indx);
-        m_renderer->init(m_dice);
+        m_rotation->init(pos,norm,indx);
+        m_renderer->init(m_rotation);
         m_renderer->redraw();
     }
 

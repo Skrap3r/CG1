@@ -24,6 +24,7 @@ public:
     void renderObjects();
 
 private:
+    CgExampleTriangle* m_triangle;
     CgBaseRenderer* m_renderer;
     CgDice* m_dice;
     CgPolyline* m_polyline;
