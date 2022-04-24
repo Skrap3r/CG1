@@ -109,7 +109,7 @@ void CgRotation::addFaceNormals(glm::vec3& normal)
     m_face_normals.push_back(normal);
 }
 
-const void CgRotation::calculateVertexNormals()
+void CgRotation::calculateVertexNormals()
 {
     m_vertex_normals.clear();
     m_face_normals.clear();
@@ -134,7 +134,7 @@ const void CgRotation::calculateVertexNormals()
     }
 }
 
-const void CgRotation::calculateFaceCenters()
+void CgRotation::calculateFaceCenters()
 {
     for(int i = 0; i < m_triangle_indices.size(); i+=3)
     {
@@ -142,7 +142,7 @@ const void CgRotation::calculateFaceCenters()
     }
 }
 
-const void CgRotation::calculateFaceNormals()
+void CgRotation::calculateFaceNormals()
 {
     glm::vec3 normal;
     for(int i = 0; i < m_triangle_indices.size(); i+=3)
