@@ -58,7 +58,7 @@ private:
     const Cg::ObjectType m_type;
     const unsigned int m_id;
 
-    int line_points_size;
+    int m_line_size;
 };
 
 inline Cg::ObjectType  CgRotation::getType() const {return m_type;}
