@@ -10,8 +10,19 @@ class CgScenegraph
 {
 public:
     CgScenegraph();
+    CgScenegraph(CgSceneGraphEntity* arg_root);
+
+    //~CgScenegraph();
 
     void render(CgBaseRenderer* renderer);
+    void render(CgSceneGraphEntity* arg_child, glm::mat4 arg_mat);
+
+    CgSceneGraphEntity *getRoot() const;
+    void setRoot(CgSceneGraphEntity *getRoot);
+
+    std::stack<glm::mat4> GetModel_view_matrix_stack() const;
+    void setModleview_matrix_stack(const std::stack<glm::mat4> &GetModel_view_matrix_stack);
+
 private:
     CgSceneGraphEntity* m_root;
     std::stack <glm::mat4> m_modleview_matrix_stack;

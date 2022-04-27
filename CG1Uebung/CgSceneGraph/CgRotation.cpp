@@ -112,8 +112,8 @@ void CgRotation::addFaceNormals(glm::vec3& normal)
 void CgRotation::calculateVertexNormals()
 {
     m_vertex_normals.clear();
-    m_face_normals.clear();
-    calculateFaceNormals();
+    //calculateFaceNormals();
+    // In O(n²)
     /*
     glm::vec3 temp;
     float count;
@@ -135,6 +135,7 @@ void CgRotation::calculateVertexNormals()
     }
     */
 
+    // In O(n)
     int size = m_vertices.size();
     std::vector<glm::vec3> normals;
     std::vector<int> count;
@@ -151,8 +152,9 @@ void CgRotation::calculateVertexNormals()
         b= m_triangle_indices.at(j+1);
         c= m_triangle_indices.at(j+2);
 
-        temp=m_face_normals.at(j/3);
-
+        //temp=m_face_normals.at(j/3);
+        // Falls man die Face_Normals erst hier berechnet ohne Methodenaufruf von CalcualteFaceNormals
+        temp = glm::cross(m_vertices.at(a) - m_vertices.at(b), m_vertices.at(a) - m_vertices.at(c));
         normals.at(a)+=temp;
         normals.at(b)+=temp;
         normals.at(c)+=temp;
@@ -173,6 +175,7 @@ void CgRotation::calculateVertexNormals()
 
 void CgRotation::calculateFaceCenters()
 {
+    m_face_centers.clear();
     for(int i = 0; i < m_triangle_indices.size(); i+=3)
     {
         m_face_centers.push_back((m_vertices.at(m_triangle_indices.at(i)) + m_vertices.at(m_triangle_indices.at(i+1)) + m_vertices.at(m_triangle_indices.at(i+2)))/3.0f);
@@ -181,6 +184,7 @@ void CgRotation::calculateFaceCenters()
 
 void CgRotation::calculateFaceNormals()
 {
+    m_face_normals.clear();
     glm::vec3 normal;
     for(int i = 0; i < m_triangle_indices.size(); i+=3)
     {

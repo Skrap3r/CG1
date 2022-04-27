@@ -148,7 +148,7 @@ void CgSceneControl::renderObjects()
     glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
 
     m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-    m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+    m_renderer->setUniformValue("modelviewMatrix",mv_matrix*glm::mat4(glm::vec4(1.0,0.0,0.0,0.0), glm::vec4(0.0,1.0,0.0,0.0),glm::vec4(0.0,0.0,1.0,0.0),glm::vec4(0.0,0.0,0.0,1.0)));
     m_renderer->setUniformValue("normalMatrix",normal_matrix);
 
     if(m_triangle!=NULL)
@@ -170,6 +170,9 @@ void CgSceneControl::renderObjects()
     if(m_polyline!=NULL)
     {
         m_renderer->render(m_polyline);
+        m_renderer->setUniformValue("modelviewMatrix",mv_matrix*glm::mat4(glm::vec4(1.0,1.0,0.0,0.0), glm::vec4(0.0,1.0,0.0,0.0),glm::vec4(0.0,0.0,1.0,0.0),glm::vec4(0.0,0.0,0.0,1.0)));
+        m_renderer->render(m_polyline);
+
     }
 
     if(m_dice!=NULL)
