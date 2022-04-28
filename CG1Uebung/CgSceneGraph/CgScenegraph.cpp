@@ -1,4 +1,4 @@
-#include "CgScenegraph.h"
+﻿#include "CgScenegraph.h"
 
 CgScenegraph::CgScenegraph()
 {
@@ -18,9 +18,14 @@ void CgScenegraph::render(CgBaseRenderer *renderer)
 
 void CgScenegraph::render(CgSceneGraphEntity *arg_child, glm::mat4 arg_mat)
 {
-    for(int i = 0; arg_child->getChildren().size(); i++)
+    for(int i = 0; i < arg_child->getList_of_objects().size(); i++)
     {
 
+    }
+
+    for(int i = 0; arg_child->getChildren().size(); i++)
+    {
+        render(arg_child->getChildren().at(i), m_modleview_matrix_stack.top());
     }
 }
 

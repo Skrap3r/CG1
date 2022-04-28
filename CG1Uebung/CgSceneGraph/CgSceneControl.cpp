@@ -104,7 +104,7 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     m_renderer->setSceneControl(this);
 
     if(m_triangle!=NULL)
-    m_renderer->init(m_triangle);
+        m_renderer->init(m_triangle);
 
     if(m_polyline!=NULL)
     {
@@ -148,11 +148,11 @@ void CgSceneControl::renderObjects()
     glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
 
     m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-    m_renderer->setUniformValue("modelviewMatrix",mv_matrix*glm::mat4(glm::vec4(1.0,0.0,0.0,0.0), glm::vec4(0.0,1.0,0.0,0.0),glm::vec4(0.0,0.0,1.0,0.0),glm::vec4(0.0,0.0,0.0,1.0)));
+    m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
     m_renderer->setUniformValue("normalMatrix",normal_matrix);
 
     if(m_triangle!=NULL)
-    m_renderer->render(m_triangle);
+        m_renderer->render(m_triangle);
 
     if(!m_normalsRotation.empty())
     {
@@ -170,9 +170,8 @@ void CgSceneControl::renderObjects()
     if(m_polyline!=NULL)
     {
         m_renderer->render(m_polyline);
-        m_renderer->setUniformValue("modelviewMatrix",mv_matrix*glm::mat4(glm::vec4(1.0,1.0,0.0,0.0), glm::vec4(0.0,1.0,0.0,0.0),glm::vec4(0.0,0.0,1.0,0.0),glm::vec4(0.0,0.0,0.0,1.0)));
+        m_renderer->setUniformValue("modelviewMatrix",mv_matrix*glm::mat4(glm::vec4(1.0,1.0,0.0,0.0), glm::vec4(0.0,1.0,1.0,0.0),glm::vec4(0.0,0.0,1.0,0.0),glm::vec4(0.0,0.0,0.0,1.0)));
         m_renderer->render(m_polyline);
-
     }
 
     if(m_dice!=NULL)
@@ -189,6 +188,11 @@ void CgSceneControl::renderObjects()
     }
 
 
+}
+
+void CgSceneControl::setCurrent_transformation(const glm::mat4 &current_transformation)
+{
+    m_current_transformation = current_transformation;
 }
 
 
@@ -214,14 +218,14 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
                 std::vector<glm::vec3> vertices = m_rotation->getVertices();
 
                 std::vector<glm::vec3> temp;
-//                for (int i= 0; i < face_centers.size(); i++)
-//                {
-//                    temp.clear();
-//                    temp.push_back(face_centers.at(i));
-//                    temp.push_back(face_centers.at(i) + face_normals.at(i));
+                //                for (int i= 0; i < face_centers.size(); i++)
+                //                {
+                //                    temp.clear();
+                //                    temp.push_back(face_centers.at(i));
+                //                    temp.push_back(face_centers.at(i) + face_normals.at(i));
 
-//                    m_normalsRotation.push_back(new CgPolyline(temp));
-//                }
+                //                    m_normalsRotation.push_back(new CgPolyline(temp));
+                //                }
 
                 for(int i = 0; i < vertex_normals.size(); i++)
                 {
@@ -298,7 +302,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             m_renderer->init(m_polyline);
             m_renderer->redraw();
         }
-
         /*
         for(glm::vec3 s : m_polyline->getVertices())
         {

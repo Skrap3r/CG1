@@ -23,6 +23,8 @@ public:
 
     void renderObjects();
 
+    void setCurrent_transformation(const glm::mat4 &current_transformation);
+
 private:
     CgExampleTriangle* m_triangle;
     CgBaseRenderer* m_renderer;
