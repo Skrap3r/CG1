@@ -15,7 +15,7 @@ public:
     //~CgScenegraph();
 
     void render(CgBaseRenderer* renderer);
-    void render(CgSceneGraphEntity* arg_child, glm::mat4 arg_mat);
+    void render(CgBaseRenderer* renderer, CgSceneGraphEntity* arg_child); //, glm::mat4 arg_mat
 
     CgSceneGraphEntity *getRoot() const;
     void setRoot(CgSceneGraphEntity *getRoot);

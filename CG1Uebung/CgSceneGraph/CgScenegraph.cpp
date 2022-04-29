@@ -1,4 +1,5 @@
 ﻿#include "CgScenegraph.h"
+#include <iostream>
 
 CgScenegraph::CgScenegraph()
 {
@@ -13,19 +14,27 @@ CgScenegraph::CgScenegraph(CgSceneGraphEntity* arg_root)
 
 void CgScenegraph::render(CgBaseRenderer *renderer)
 {
-
+    render(renderer, m_root);
 }
 
-void CgScenegraph::render(CgSceneGraphEntity *arg_child, glm::mat4 arg_mat)
+void CgScenegraph::render(CgBaseRenderer* renderer, CgSceneGraphEntity *arg_child)
 {
-    for(int i = 0; i < arg_child->getList_of_objects().size(); i++)
-    {
+    applyTransform(arg_child->getCurrent_transformation());
+    renderer->setUniformValue("modelviewMatrix", m_modleview_matrix_stack.top());
 
+    for(auto obj : arg_child->getList_of_objects())
+    {
+        renderer->render(obj);
+        std::cout << obj->getType() << std::endl;
     }
 
-    for(int i = 0; arg_child->getChildren().size(); i++)
+
+
+    for(auto ent : arg_child->getChildren())
     {
-        render(arg_child->getChildren().at(i), m_modleview_matrix_stack.top());
+        pushMatrix();
+        render(renderer, ent);
+        popMatrix();
     }
 }
 

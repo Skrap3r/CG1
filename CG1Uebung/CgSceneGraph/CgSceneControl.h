@@ -5,6 +5,7 @@
 #include "CgBase/CgBaseSceneControl.h"
 #include <glm/glm.hpp>
 #include <vector>
+#include "CgScenegraph.h"
 
 class CgBaseEvent;
 class CgBaseRenderer;
@@ -24,13 +25,17 @@ public:
     void renderObjects();
 
     void setCurrent_transformation(const glm::mat4 &current_transformation);
-
+    void setCurrentMatrix();
 private:
     CgExampleTriangle* m_triangle;
     CgBaseRenderer* m_renderer;
     CgDice* m_dice;
     CgPolyline* m_polyline;
     CgRotation* m_rotation;
+    CgScenegraph* graph;
+    CgSceneGraphEntity* e1;
+    CgSceneGraphEntity* e2;
+    CgSceneGraphEntity* e3;
 
     std::vector<CgPolyline*> m_normalsRotation;
 

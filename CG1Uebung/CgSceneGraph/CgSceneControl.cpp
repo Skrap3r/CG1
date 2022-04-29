@@ -1,4 +1,4 @@
-#include "CgSceneControl.h"
+﻿#include "CgSceneControl.h"
 #include "CgBase/CgEnums.h"
 #include "CgEvents/CgMouseEvent.h"
 #include "CgEvents/CgKeyEvent.h"
@@ -21,8 +21,11 @@
 #include "CgUtils/ObjLoader.h"
 #include <string>
 #include "glm/gtx/string_cast.hpp"
+#include "CgScenegraph.h"
+#include "CgSceneGraphEntity.h"
+#include <stack>
 
-bool draw_dice = false;
+bool draw_dice = true;
 bool draw_dice_normals = false;
 bool draw_polyline = true;
 
@@ -38,9 +41,6 @@ CgSceneControl::CgSceneControl()
     m_trackball_rotation=glm::mat4(1.);
 
 
-    /*
-     * Aus sicht des Dreiecks sehen nciht aus sicht des Punktes so kann jeder Punkt seine Normalen kennen
-    */
 
     //m_triangle= new CgExampleTriangle(21);
 
@@ -58,6 +58,22 @@ CgSceneControl::CgSceneControl()
             m_dice->calculate_normals();
         }
     }
+
+    e1 = new CgSceneGraphEntity();
+    e1->addListObject(m_polyline);
+    e1->addListObject(m_dice);
+
+    e2 = new CgSceneGraphEntity();
+    e2->addListObject(m_polyline);
+    e2->addListObject(m_dice);
+    e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
+
+    e2->setParent(e1);
+
+    e1->addChild(e2);
+
+    graph = new CgScenegraph(e1);
+
 }
 
 
@@ -144,13 +160,15 @@ void CgSceneControl::renderObjects()
     m_renderer->setUniformValue("matSpecularColor",glm::vec4(0.8,0.72,0.21,1.0));
     m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0,1.0,1.0,1.0));
 
-    glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation* m_current_transformation ;
+    glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation* m_current_transformation;
     glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
 
     m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-    m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+    //m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
     m_renderer->setUniformValue("normalMatrix",normal_matrix);
-
+    setCurrentMatrix();
+    graph->render(m_renderer);
+    /*
     if(m_triangle!=NULL)
         m_renderer->render(m_triangle);
 
@@ -169,14 +187,12 @@ void CgSceneControl::renderObjects()
 
     if(m_polyline!=NULL)
     {
-        m_renderer->render(m_polyline);
-        m_renderer->setUniformValue("modelviewMatrix",mv_matrix*glm::mat4(glm::vec4(1.0,1.0,0.0,0.0), glm::vec4(0.0,1.0,1.0,0.0),glm::vec4(0.0,0.0,1.0,0.0),glm::vec4(0.0,0.0,0.0,1.0)));
-        m_renderer->render(m_polyline);
+        //m_renderer->render(m_polyline);
     }
 
     if(m_dice!=NULL)
     {
-        m_renderer->render(m_dice);
+        //m_renderer->render(m_dice);
 
         if (m_dice->getNormals().size() > 0)
         {
@@ -186,7 +202,7 @@ void CgSceneControl::renderObjects()
             }
         }
     }
-
+    */
 
 }
 
@@ -195,7 +211,13 @@ void CgSceneControl::setCurrent_transformation(const glm::mat4 &current_transfor
     m_current_transformation = current_transformation;
 }
 
-
+void CgSceneControl::setCurrentMatrix()
+{
+    glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation* m_current_transformation;
+    std::stack <glm::mat4> temp;
+    temp.push(mv_matrix);
+    graph->setModleview_matrix_stack(temp);
+}
 
 void CgSceneControl::handleEvent(CgBaseEvent* e)
 {
