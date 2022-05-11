@@ -26,7 +26,7 @@ public:
     glm::mat4 getCurrent_transformation() const;
     void setCurrent_transformation(const glm::mat4 &current_transformation);
 
-    CgAppearance getAppearance() const;
+    CgAppearance& getAppearance();
     void setAppearance(const CgAppearance &appearance);
 
     CgSceneGraphEntity *getParent() const;

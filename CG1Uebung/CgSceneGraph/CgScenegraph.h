@@ -17,15 +17,22 @@ public:
     void render(CgBaseRenderer* renderer);
     void render(CgBaseRenderer* renderer, CgSceneGraphEntity* arg_child); //, glm::mat4 arg_mat
 
+    void createListOfEntitys(CgSceneGraphEntity* arg_child);
+    void clearListOfEntitys(void);
+
     CgSceneGraphEntity *getRoot() const;
     void setRoot(CgSceneGraphEntity *getRoot);
 
     std::stack<glm::mat4> GetModel_view_matrix_stack() const;
     void setModleview_matrix_stack(const std::stack<glm::mat4> &GetModel_view_matrix_stack);
 
+    std::vector<CgSceneGraphEntity *> getListOfEntitys() const;
+
 private:
     CgSceneGraphEntity* m_root;
     std::stack <glm::mat4> m_modleview_matrix_stack;
+
+    std::vector<CgSceneGraphEntity*> listOfEntitys;
 
     void pushMatrix() {m_modleview_matrix_stack.push(m_modleview_matrix_stack.top());}
     void popMatrix() {m_modleview_matrix_stack.pop();}

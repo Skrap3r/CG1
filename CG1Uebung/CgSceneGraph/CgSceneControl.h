@@ -26,6 +26,8 @@ public:
 
     void setCurrent_transformation(const glm::mat4 &current_transformation);
     void setCurrentMatrix();
+
+    void iterate_graph(CgSceneGraphEntity* arg_child, glm::vec3 arg_color);
 private:
     CgExampleTriangle* m_triangle;
     CgBaseRenderer* m_renderer;
@@ -36,6 +38,7 @@ private:
     CgSceneGraphEntity* e1;
     CgSceneGraphEntity* e2;
     CgSceneGraphEntity* e3;
+    CgSceneGraphEntity* e4;
 
     std::vector<CgPolyline*> m_normalsRotation;
 
@@ -44,6 +47,8 @@ private:
     glm::mat4 m_lookAt_matrix;
     glm::mat4 m_proj_matrix;
 
+    int count;
+    glm::vec4 old_color;
 };
 
 #endif // CGSCENECONTROL_H

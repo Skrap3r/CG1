@@ -42,7 +42,7 @@ CgSceneControl::CgSceneControl()
 
 
 
-    //m_triangle= new CgExampleTriangle(21);
+    m_triangle= new CgExampleTriangle();
 
     if(draw_polyline)
     {
@@ -61,19 +61,30 @@ CgSceneControl::CgSceneControl()
 
     e1 = new CgSceneGraphEntity();
     e1->addListObject(m_polyline);
-    e1->addListObject(m_dice);
 
     e2 = new CgSceneGraphEntity();
-    e2->addListObject(m_polyline);
+    e2->addListObject(m_triangle);
+    e2->getAppearance().setObject_color(glm::vec3(0.0,1.0,0.0));
     e2->addListObject(m_dice);
     e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
 
+    e1->addChild(e2);
     e2->setParent(e1);
 
-    e1->addChild(e2);
+    //e4 = new CgSceneGraphEntity();
+    e3 = new CgSceneGraphEntity();
+
+    //e3->addChild(e4);
+    //e4->setParent(e3);
+
+    e1->addChild(e3);
+    e3->setParent(e1);
 
     graph = new CgScenegraph(e1);
-
+    count = 0;
+    graph->createListOfEntitys(graph->getRoot());
+    old_color = glm::vec4(e1->getAppearance().getObject_color(),1);
+    e1->getAppearance().setObject_color(glm::vec4(1,0,0,1));
 }
 
 
@@ -140,7 +151,7 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
         }
     }
 
-    m_renderer->setUniformValue("mycolor",glm::vec4(0.0,1.0,0.0,1.0));
+    //m_renderer->setUniformValue("mycolor",glm::vec4(0.0,1.0,0.0,1.0));
 }
 
 
@@ -219,6 +230,19 @@ void CgSceneControl::setCurrentMatrix()
     graph->setModleview_matrix_stack(temp);
 }
 
+void CgSceneControl::iterate_graph(CgSceneGraphEntity* arg_child, glm::vec3 arg_color)
+{
+    arg_child->getAppearance().setObject_color(arg_color);
+
+    for(auto ent : arg_child->getChildren())
+    {
+        if(ent != NULL)
+        {
+            iterate_graph(ent, arg_color);
+        }
+    }
+}
+
 void CgSceneControl::handleEvent(CgBaseEvent* e)
 {
     // die Enums sind so gebaut, dass man alle Arten von MausEvents über CgEvent::CgMouseEvent abprüfen kann,
@@ -240,14 +264,16 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
                 std::vector<glm::vec3> vertices = m_rotation->getVertices();
 
                 std::vector<glm::vec3> temp;
-                //                for (int i= 0; i < face_centers.size(); i++)
-                //                {
-                //                    temp.clear();
-                //                    temp.push_back(face_centers.at(i));
-                //                    temp.push_back(face_centers.at(i) + face_normals.at(i));
+                /*
+                for (int i= 0; i < face_centers.size(); i++)
+                {
+                    temp.clear();
+                    temp.push_back(face_centers.at(i));
+                    temp.push_back(face_centers.at(i) + face_normals.at(i));
 
-                //                    m_normalsRotation.push_back(new CgPolyline(temp));
-                //                }
+                    m_normalsRotation.push_back(new CgPolyline(temp));
+                }
+                */
 
                 for(int i = 0; i < vertex_normals.size(); i++)
                 {
@@ -263,12 +289,17 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
                     for(auto s : m_normalsRotation)
                     {
                         m_renderer->init(s);
+                        e3->addListObject(s);
                     }
                 }
 
                 std::cout << "Normalen gezeichnet" << std::endl;
             } else {
                 m_normalsRotation.clear();
+                while(!e3->getList_of_objects().empty())
+                {
+                    e3->deleteLastListOfObject();
+                }
                 std::cout << "Normalen gelöscht" << std::endl;
             }
 
@@ -291,11 +322,10 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             delete m_rotation;
             m_rotation = new CgRotation(m_polyline->getVertices(), ev->getSegmente());
             m_renderer->init(m_rotation);
-
+            e1->addListObject(m_rotation);
             m_renderer->redraw();
             std::cout << "Rotationskörper Erstellung gestartet, Anzahl Segmente: " << ev->getSegmente() << std::endl;
         }
-
 
     }
 
@@ -336,7 +366,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() & Cg::CgColorChangeEvent){
         CgColorChangeEvent* ev = (CgColorChangeEvent*)e;
 
-        m_renderer->setUniformValue("mycolor",glm::vec4((double)ev->red()/255,(double)ev->green()/255,(double)ev->blue()/255, 1.0));
+        //m_renderer->setUniformValue("mycolor",glm::vec4((double)ev->red()/255,(double)ev->green()/255,(double)ev->blue()/255, 1.0));
+        //iterate_graph(graph->getRoot(), glm::vec3((double)ev->red()/255,(double)ev->green()/255,(double)ev->blue()/255));
 
         std::cout << "R:" << ev->red() << " G:" << ev->green() << " B:" << ev->blue() << std::endl;
 
@@ -374,19 +405,52 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         if(ev->text()=="+")
         {
-            glm::mat4 scalemat = glm::mat4(1.);
-            scalemat = glm::scale(scalemat,glm::vec3(1.2,1.2,1.2));
-            m_current_transformation=m_current_transformation*scalemat;
+//            glm::mat4 scalemat = glm::mat4(1.);
+//            scalemat = glm::scale(scalemat,glm::vec3(1.2,1.2,1.2));
+//            m_current_transformation=m_current_transformation*scalemat;
+//            m_renderer->redraw();
+
+            glm::vec3 scale = glm::vec3(1.5,1.5,1.5);
+            graph->getListOfEntitys().at(count)->setCurrent_transformation(glm::scale(graph->getListOfEntitys().at(count)->getCurrent_transformation(), scale));
             m_renderer->redraw();
         }
         if(ev->text()=="-")
         {
-            glm::mat4 scalemat = glm::mat4(1.);
-            scalemat = glm::scale(scalemat,glm::vec3(0.8,0.8,0.8));
+//            glm::mat4 scalemat = glm::mat4(1.);
+//            scalemat = glm::scale(scalemat,glm::vec3(0.8,0.8,0.8));
 
-            m_current_transformation=m_current_transformation*scalemat;
+//            m_current_transformation=m_current_transformation*scalemat;
+
+//            m_renderer->redraw();
+
+            glm::vec3 scale = glm::vec3(0.666666667,0.666666667,0.666666667);
+            graph->getListOfEntitys().at(count)->setCurrent_transformation(glm::scale(graph->getListOfEntitys().at(count)->getCurrent_transformation(), scale));
+            m_renderer->redraw();
+
+        }
+        if(ev->text()=="n")
+        {
+            count++;
+
+            if(count == graph->getListOfEntitys().size())
+            {
+                count = 0;
+            }
+            if(count == 0)
+            {
+                graph->getListOfEntitys().at(graph->getListOfEntitys().size()-1)->getAppearance().setObject_color(old_color);
+            }
+            else
+            {
+                graph->getListOfEntitys().at(count-1)->getAppearance().setObject_color(old_color);
+            }
+
+            old_color = glm::vec4(graph->getListOfEntitys().at(count)->getAppearance().getObject_color(),1);
+
+            graph->getListOfEntitys().at(count)->getAppearance().setObject_color(glm::vec4(1,0,0,1));
 
             m_renderer->redraw();
+            std::cout << count << std::endl;
         }
         // hier kommt jetzt die Abarbeitung des Events hin...
     }

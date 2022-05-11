@@ -3,12 +3,14 @@
 CgSceneGraphEntity::CgSceneGraphEntity()
 {
     m_current_transformation = glm::mat4(1.);
+    m_appearance = *new CgAppearance();
 }
 
 CgSceneGraphEntity::CgSceneGraphEntity(CgSceneGraphEntity *arg_parent)
 {
     m_parent = arg_parent;
     m_current_transformation = glm::mat4(1.);
+    m_appearance = *new CgAppearance();
 }
 
 void CgSceneGraphEntity::deleteLastChild()
@@ -51,7 +53,7 @@ void CgSceneGraphEntity::setCurrent_transformation(const glm::mat4 &current_tran
     m_current_transformation = current_transformation;
 }
 
-CgAppearance CgSceneGraphEntity::getAppearance() const
+CgAppearance& CgSceneGraphEntity::getAppearance()
 {
     return m_appearance;
 }

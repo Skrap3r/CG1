@@ -9,20 +9,11 @@ CgExampleTriangle::CgExampleTriangle():
     m_vertices.push_back(glm::vec3(-0.5,0.0,0.0));
     m_vertices.push_back(glm::vec3(0.0,-0.5,0.0));
     m_vertices.push_back(glm::vec3(0.0,0.5,0.0));
-    m_vertices.push_back(glm::vec3(0.5,0.0,0.0));
-    m_vertices.push_back(glm::vec3(0.0,0.0,0.5));
 
     m_triangle_indices.push_back(0);
     m_triangle_indices.push_back(1);
     m_triangle_indices.push_back(2);
-    m_triangle_indices.push_back(2);
-    m_triangle_indices.push_back(1);
-    m_triangle_indices.push_back(3);
-    m_triangle_indices.push_back(1);
-    m_triangle_indices.push_back(3);
-    m_triangle_indices.push_back(4);
 
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
     m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
     m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
     m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
