@@ -10,6 +10,8 @@
 #include "../CgEvents/CgSchritteResetEvent.h"
 #include "../CgEvents/CgRotationskoerperErstellenEvent.h"
 #include "../CgEvents/CgRotationskoerperNormalenEvent.h"
+#include "../CgEvents/CgLokKoordZeichnenEvent.h"
+#include "../CgEvents/CgTransaltionAusfuerenEvent.h"
 #include "CgRotation.h"
 #include "CgBase/CgBaseRenderer.h"
 #include "CgExampleTriangle.h"
@@ -20,7 +22,6 @@
 #include "glm/gtx/string_cast.hpp"
 #include "CgUtils/ObjLoader.h"
 #include <string>
-#include "glm/gtx/string_cast.hpp"
 #include "CgScenegraph.h"
 #include "CgSceneGraphEntity.h"
 #include <stack>
@@ -82,9 +83,11 @@ CgSceneControl::CgSceneControl()
 
     graph = new CgScenegraph(e1);
     count = 0;
+
     graph->createListOfEntitys(graph->getRoot());
     old_color = glm::vec4(e1->getAppearance().getObject_color(),1);
     e1->getAppearance().setObject_color(glm::vec4(1,0,0,1));
+    current_Entity = e1;
 }
 
 
@@ -243,10 +246,43 @@ void CgSceneControl::iterate_graph(CgSceneGraphEntity* arg_child, glm::vec3 arg_
     }
 }
 
+void CgSceneControl::scale_obj(CgSceneGraphEntity *arg_entity, glm::vec3 arg_scale)
+{;
+    arg_entity->setCurrent_transformation(glm::scale(arg_entity->getCurrent_transformation(), arg_scale));
+    m_renderer->redraw();
+}
+
+void CgSceneControl::translate_obj(CgSceneGraphEntity *arg_entity, glm::vec3 arg_translation)
+{
+    arg_entity->setCurrent_transformation(glm::translate(arg_entity->getCurrent_transformation(), arg_translation));
+    m_renderer->redraw();
+}
+
 void CgSceneControl::handleEvent(CgBaseEvent* e)
 {
     // die Enums sind so gebaut, dass man alle Arten von MausEvents über CgEvent::CgMouseEvent abprüfen kann,
     // siehe dazu die CgEvent enums im CgEnums.h
+
+    if(e->getType() & Cg::CgTransaltionAusfuerenEvent)
+    {
+        CgTransaltionAusfuerenEvent* ev = (CgTransaltionAusfuerenEvent*)e;
+
+        translate_obj(current_Entity, ev->getTranslation());
+    }
+
+    if(e->getType() & Cg::CgLokKoordZeichnenEvent)
+    {
+        CgLokKoordZeichnenEvent* ev = (CgLokKoordZeichnenEvent*)e;
+
+        if (ev->getZeichnen())
+        {
+            std::cout << "Lok Koord Zeichnen" << std::endl;
+        }
+        else
+        {
+            std::cout << "Lok Koord löschen" << std::endl;
+        }
+    }
 
     if(e->getType() & Cg::CgRotationskoerperNormalenEvent){
         CgRotationskoerperNormalenEvent* ev = (CgRotationskoerperNormalenEvent*)e;
@@ -405,28 +441,23 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         if(ev->text()=="+")
         {
-//            glm::mat4 scalemat = glm::mat4(1.);
-//            scalemat = glm::scale(scalemat,glm::vec3(1.2,1.2,1.2));
-//            m_current_transformation=m_current_transformation*scalemat;
-//            m_renderer->redraw();
+            //            glm::mat4 scalemat = glm::mat4(1.);
+            //            scalemat = glm::scale(scalemat,glm::vec3(1.2,1.2,1.2));
+            //            m_current_transformation=m_current_transformation*scalemat;
+            //            m_renderer->redraw();
 
-            glm::vec3 scale = glm::vec3(1.5,1.5,1.5);
-            graph->getListOfEntitys().at(count)->setCurrent_transformation(glm::scale(graph->getListOfEntitys().at(count)->getCurrent_transformation(), scale));
-            m_renderer->redraw();
+            scale_obj(current_Entity, glm::vec3(1.5));
         }
         if(ev->text()=="-")
         {
-//            glm::mat4 scalemat = glm::mat4(1.);
-//            scalemat = glm::scale(scalemat,glm::vec3(0.8,0.8,0.8));
+            //            glm::mat4 scalemat = glm::mat4(1.);
+            //            scalemat = glm::scale(scalemat,glm::vec3(0.8,0.8,0.8));
 
-//            m_current_transformation=m_current_transformation*scalemat;
+            //            m_current_transformation=m_current_transformation*scalemat;
 
-//            m_renderer->redraw();
+            //            m_renderer->redraw();
 
-            glm::vec3 scale = glm::vec3(0.666666667,0.666666667,0.666666667);
-            graph->getListOfEntitys().at(count)->setCurrent_transformation(glm::scale(graph->getListOfEntitys().at(count)->getCurrent_transformation(), scale));
-            m_renderer->redraw();
-
+            scale_obj(current_Entity, glm::vec3(0.666666667));
         }
         if(ev->text()=="n")
         {
@@ -448,6 +479,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             old_color = glm::vec4(graph->getListOfEntitys().at(count)->getAppearance().getObject_color(),1);
 
             graph->getListOfEntitys().at(count)->getAppearance().setObject_color(glm::vec4(1,0,0,1));
+
+            current_Entity = graph->getListOfEntitys().at(count);
 
             m_renderer->redraw();
             std::cout << count << std::endl;

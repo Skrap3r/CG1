@@ -32,6 +32,8 @@ typedef enum EventType {
     CgSchritteResetEvent            = 0x0004000,
     CgRotationskoerperNormalenEvent = 0x0008000,
     CgRotationskoerperErstellenEvent= 0x0010000,
+    CgLokKoordZeichnenEvent         = 0x0020000,
+    CgTransaltionAusfuerenEvent     = 0x0040000,
     CgEventGroup1                   = 0x000f000,
 
     // feel free to add whatever you like

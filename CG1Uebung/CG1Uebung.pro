@@ -7,10 +7,12 @@ CONFIG += c++11
 SOURCES += main.cpp \
     CgBase/CgBaseRenderableObject.cpp \
     CgEvents/CgColorChangeEvent.cpp \
+    CgEvents/CgLokKoordZeichnenEvent.cpp \
     CgEvents/CgRotationskoerperErstellenEvent.cpp \
     CgEvents/CgRotationskoerperNormalenEvent.cpp \
     CgEvents/CgSchritteAusfuehrenEvent.cpp \
     CgEvents/CgSchritteResetEvent.cpp \
+    CgEvents/CgTransaltionAusfuerenEvent.cpp \
     CgQtViewer/CGQtGLRenderWidget.cpp \
     CgQtViewer/CgQtGui.cpp \
     CgBase/CgObservable.cpp \
@@ -34,10 +36,12 @@ SOURCES += main.cpp \
 
 HEADERS += \
     CgEvents/CgColorChangeEvent.h \
+    CgEvents/CgLokKoordZeichnenEvent.h \
     CgEvents/CgRotationskoerperErstellenEvent.h \
     CgEvents/CgRotationskoerperNormalenEvent.h \
     CgEvents/CgSchritteAusfuehrenEvent.h \
     CgEvents/CgSchritteResetEvent.h \
+    CgEvents/CgTransaltionAusfuerenEvent.h \
     CgQtViewer/CgQtGLRenderWidget.h \
     CgQtViewer/CgQtGui.h \
     CgBase/CgObserver.h \

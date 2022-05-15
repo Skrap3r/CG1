@@ -14,6 +14,8 @@
 #include "../CgEvents/CgSchritteResetEvent.h"
 #include "../CgEvents/CgRotationskoerperErstellenEvent.h"
 #include "../CgEvents/CgRotationskoerperNormalenEvent.h"
+#include "../CgEvents/CgLokKoordZeichnenEvent.h"
+#include "../CgEvents/CgTransaltionAusfuerenEvent.h"
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -63,9 +65,13 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     QWidget *uebung02opt = new QWidget;
     createOptionPanelUebung02(uebung02opt);
 
+    QWidget *uebung04opt = new QWidget;
+    createOptionPanelUebung04(uebung04opt);
+
     QTabWidget* m_tabs = new QTabWidget();
     m_tabs->addTab(uebung01opt, "&Uebung01");
     m_tabs->addTab(uebung02opt, "&Uebung02");
+    m_tabs->addTab(uebung04opt, "&Uebung04");
     m_tabs->addTab(opt,"&My Tab1");
     m_tabs->addTab(otheropt,"&My Tab2");
     container->addWidget(m_tabs);
@@ -145,6 +151,74 @@ QSlider *CgQtGui::createSlider()
     slider->setTickInterval(15 * 16);
     slider->setTickPosition(QSlider::TicksRight);
     return slider;
+}
+
+void CgQtGui::createOptionPanelUebung04(QWidget *panel)
+{
+    QVBoxLayout *tab5_control = new QVBoxLayout();
+
+    myCheckBoxLokKoordZeichnen = new QCheckBox("c) Lokale Koordinaten zeichnen");
+    myCheckBoxLokKoordZeichnen->setCheckable(true);
+    myCheckBoxLokKoordZeichnen->setChecked(false);
+    connect(myCheckBoxLokKoordZeichnen, SIGNAL( clicked() ), this, SLOT(slotCheckboxLokKoordeichnenChanged()) );
+    tab5_control->addWidget(myCheckBoxLokKoordZeichnen);
+
+    //Label Translation
+    QLabel *transVek_label = new QLabel("Translationsvektor wählen:");
+    tab5_control->addWidget(transVek_label);
+    transVek_label->setAlignment(Qt::AlignCenter);
+
+    //Spinobx X Koordinate
+    mySpinBoxX = new QSpinBox();
+    tab5_control->addWidget(mySpinBoxX);
+    mySpinBoxX->setPrefix("X:");
+    mySpinBoxX->setValue(1);
+    mySpinBoxX->setMinimum(-1000);
+    mySpinBoxX->setMaximum(1000);
+
+    //Spinobx Y Koordinate
+    mySpinBoxY = new QSpinBox();
+    tab5_control->addWidget(mySpinBoxY);
+    mySpinBoxY->setPrefix("Y:");
+    mySpinBoxY->setValue(0);
+    mySpinBoxY->setMinimum(-1000);
+    mySpinBoxY->setMaximum(1000);
+
+    //Spinobx Z Koordinate
+    mySpinBoxZ = new QSpinBox();
+    tab5_control->addWidget(mySpinBoxZ);
+    mySpinBoxZ->setPrefix("Z:");
+    mySpinBoxZ->setValue(0);
+    mySpinBoxZ->setMinimum(-1000);
+    mySpinBoxZ->setMaximum(1000);
+
+    //Button Translation starten
+    QPushButton* myButtonRotAusfuehren = new QPushButton("&d) Translation ausführen");
+    tab5_control->addWidget(myButtonRotAusfuehren);
+    connect(myButtonRotAusfuehren, SIGNAL( clicked() ), this, SLOT(slotButtonTranslationAusfuehren()) );
+
+
+    panel->setLayout(tab5_control);
+}
+
+void CgQtGui::slotButtonTranslationAusfuehren()
+{
+    CgBaseEvent* e = new CgTransaltionAusfuerenEvent(Cg::CgTransaltionAusfuerenEvent, glm::vec3(mySpinBoxX->value(), mySpinBoxY->value(), mySpinBoxZ->value()));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotCheckboxLokKoordeichnenChanged()
+{
+    CgBaseEvent* e = new CgLokKoordZeichnenEvent(Cg::CgLokKoordZeichnenEvent, myCheckBoxLokKoordZeichnen->isChecked());
+    notifyObserver(e);
+
+    /*
+    if (myCheckBoxLokKoordZeichnen->isChecked())
+    {
+        std::cout << "Lokale Koordinaten gezeichnet" << std::endl;
+    } else {
+        std::cout << "Lokale Koordinaten gelöscht" << std::endl;
+    }*/
 }
 
 void CgQtGui::createOptionPanelUebung02(QWidget* parent)

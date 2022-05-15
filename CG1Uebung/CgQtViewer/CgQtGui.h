@@ -99,18 +99,31 @@ private:
     /* example for usage of qt gui elements, feel free to add what you like */
     void createOptionPanelExample1(QWidget* panel);
     void createOptionPanelExample2(QWidget* panel);
-    void createOptionPanelUebung01(QWidget* panel);
-    void createOptionPanelUebung02(QWidget* panel);
+
     QButtonGroup* myButtonGroup;
     QCheckBox* myCheckBox1;
-    QCheckBox* myCheckBoxNormalenZeichnen;
     QSpinBox* mySpinBox1;
+
+
+    //Übung 01
+    void createOptionPanelUebung01(QWidget* panel);
     QSpinBox* mySpinBoxRed;
     QSpinBox* mySpinBoxGreen;
     QSpinBox* mySpinBoxBlue;
+
+    //Übung 02
+    void createOptionPanelUebung02(QWidget* panel);
+    QCheckBox* myCheckBoxNormalenZeichnen;
     QSpinBox* mySpinBoxSchritte;
     QSpinBox* mySpinBoxSegmente;
 
+    //Übung 04
+    void createOptionPanelUebung04(QWidget* panel);
+    QCheckBox* myCheckBoxLokKoordZeichnen;
+
+    QSpinBox* mySpinBoxX;
+    QSpinBox* mySpinBoxY;
+    QSpinBox* mySpinBoxZ;
 
 
 private slots:
@@ -135,7 +148,9 @@ private slots:
     void slotButtonRotationskoerperErstellen();
     void slotCheckboxNormalenZeichnenChanged();
 
-
+    //Übung 04
+    void slotCheckboxLokKoordeichnenChanged();
+    void slotButtonTranslationAusfuehren();
 
 
 

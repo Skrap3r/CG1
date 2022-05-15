@@ -28,6 +28,9 @@ public:
     void setCurrentMatrix();
 
     void iterate_graph(CgSceneGraphEntity* arg_child, glm::vec3 arg_color);
+
+    void scale_obj(CgSceneGraphEntity* arg_entity, glm::vec3 arg_scale);
+    void translate_obj(CgSceneGraphEntity* arg_entity, glm::vec3 arg_translation);
 private:
     CgExampleTriangle* m_triangle;
     CgBaseRenderer* m_renderer;
@@ -39,6 +42,8 @@ private:
     CgSceneGraphEntity* e2;
     CgSceneGraphEntity* e3;
     CgSceneGraphEntity* e4;
+
+    CgSceneGraphEntity* current_Entity;
 
     std::vector<CgPolyline*> m_normalsRotation;
 
