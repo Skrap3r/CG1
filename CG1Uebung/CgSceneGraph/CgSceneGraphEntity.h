@@ -14,6 +14,8 @@ public:
 
     //~CgSceneGraphEntity();
 
+    void calculateCenter();
+
     void deleteLastChild();
     void deleteLastListOfObject();
 
@@ -35,11 +37,16 @@ public:
     std::vector<CgSceneGraphEntity *> getChildren() const;
     void setChildren(const std::vector<CgSceneGraphEntity *> &children);
 
+    glm::vec3 getCenter() const;
+    void setCenter(const glm::vec3 &center);
+
 private:
     std::vector<CgBaseRenderableObject*> list_of_objects;
     glm::mat4 m_current_transformation;
 
     CgAppearance m_appearance;
+
+    glm::vec3 m_center;
 
     CgSceneGraphEntity* m_parent;
     std::vector<CgSceneGraphEntity*> m_children;

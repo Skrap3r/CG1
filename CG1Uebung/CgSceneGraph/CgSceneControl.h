@@ -38,11 +38,20 @@ private:
     CgDice* m_dice;
     CgPolyline* m_polyline;
     CgRotation* m_rotation;
+
+    CgPolyline* m_localX;
+    CgPolyline* m_localY;
+    CgPolyline* m_localZ;
+
     CgScenegraph* graph;
     CgSceneGraphEntity* e1;
     CgSceneGraphEntity* e2;
     CgSceneGraphEntity* e3;
     CgSceneGraphEntity* e4;
+
+    CgSceneGraphEntity* eX;
+    CgSceneGraphEntity* eY;
+    CgSceneGraphEntity* eZ;
 
     CgSceneGraphEntity* current_Entity;
 

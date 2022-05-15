@@ -157,12 +157,6 @@ void CgQtGui::createOptionPanelUebung04(QWidget *panel)
 {
     QVBoxLayout *tab5_control = new QVBoxLayout();
 
-    myCheckBoxLokKoordZeichnen = new QCheckBox("c) Lokale Koordinaten zeichnen");
-    myCheckBoxLokKoordZeichnen->setCheckable(true);
-    myCheckBoxLokKoordZeichnen->setChecked(false);
-    connect(myCheckBoxLokKoordZeichnen, SIGNAL( clicked() ), this, SLOT(slotCheckboxLokKoordeichnenChanged()) );
-    tab5_control->addWidget(myCheckBoxLokKoordZeichnen);
-
     //Label Translation
     QLabel *transVek_label = new QLabel("Translationsvektor wählen:");
     tab5_control->addWidget(transVek_label);
@@ -197,6 +191,11 @@ void CgQtGui::createOptionPanelUebung04(QWidget *panel)
     tab5_control->addWidget(myButtonRotAusfuehren);
     connect(myButtonRotAusfuehren, SIGNAL( clicked() ), this, SLOT(slotButtonTranslationAusfuehren()) );
 
+    myCheckBoxLokKoordZeichnen = new QCheckBox("c) Lokale Koordinaten zeichnen");
+    myCheckBoxLokKoordZeichnen->setCheckable(true);
+    myCheckBoxLokKoordZeichnen->setChecked(false);
+    connect(myCheckBoxLokKoordZeichnen, SIGNAL( clicked() ), this, SLOT(slotCheckboxLokKoordeichnenChanged()) );
+    tab5_control->addWidget(myCheckBoxLokKoordZeichnen);
 
     panel->setLayout(tab5_control);
 }

@@ -13,6 +13,21 @@ CgSceneGraphEntity::CgSceneGraphEntity(CgSceneGraphEntity *arg_parent)
     m_appearance = *new CgAppearance();
 }
 
+void CgSceneGraphEntity::calculateCenter()
+{
+    glm::vec3 center = glm::vec3(0,0,0);
+    int count = 0;
+    for(auto obj : list_of_objects)
+    {
+        for(auto vert: obj->getVertices())
+        {
+            center += vert;
+            count++;
+        }
+    }
+    m_center = center /glm::vec3(count);
+}
+
 void CgSceneGraphEntity::deleteLastChild()
 {
     m_children.pop_back();
@@ -82,5 +97,15 @@ std::vector<CgSceneGraphEntity *> CgSceneGraphEntity::getChildren() const
 void CgSceneGraphEntity::setChildren(const std::vector<CgSceneGraphEntity *> &children)
 {
     m_children = children;
+}
+
+glm::vec3 CgSceneGraphEntity::getCenter() const
+{
+    return m_center;
+}
+
+void CgSceneGraphEntity::setCenter(const glm::vec3 &center)
+{
+    m_center = center;
 }
 

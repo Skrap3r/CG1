@@ -37,6 +37,12 @@ CgSceneControl::CgSceneControl()
     m_dice=nullptr;
     m_polyline = nullptr;
     m_rotation = nullptr;
+    m_localX = nullptr;
+
+    eX = nullptr;
+    eY = nullptr;
+    eZ = nullptr;
+
     m_current_transformation=glm::mat4(1.);
     m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
     m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
@@ -62,25 +68,25 @@ CgSceneControl::CgSceneControl()
     }
 
     e1 = new CgSceneGraphEntity();
-    e1->addListObject(m_polyline);
-
     e2 = new CgSceneGraphEntity();
-    //e2->addListObject(m_triangle);
-    e2->getAppearance().setObject_color(glm::vec3(0.0,1.0,0.0));
+    e3 = new CgSceneGraphEntity();
+    //e4 = new CgSceneGraphEntity();
+
+    e1->addListObject(m_polyline);
     //e2->addListObject(m_dice);
-    e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
+    //e2->addListObject(m_triangle);
 
     e1->addChild(e2);
     e2->setParent(e1);
 
-    //e4 = new CgSceneGraphEntity();
-    e3 = new CgSceneGraphEntity();
+    e1->addChild(e3);
+    e3->setParent(e1);
 
     //e3->addChild(e4);
     //e4->setParent(e3);
 
-    e1->addChild(e3);
-    e3->setParent(e1);
+    e2->getAppearance().setObject_color(glm::vec3(0.0,1.0,0.0));
+    e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
 
     graph = new CgScenegraph(e1);
     count = 0;
@@ -250,19 +256,19 @@ void CgSceneControl::iterate_graph(CgSceneGraphEntity* arg_child, glm::vec3 arg_
 void CgSceneControl::scale_obj(CgSceneGraphEntity *arg_entity, glm::vec3 arg_scale)
 {;
     arg_entity->setCurrent_transformation(glm::scale(arg_entity->getCurrent_transformation(), arg_scale));
-    m_renderer->redraw();
+    //m_renderer->redraw();
 }
 
 void CgSceneControl::translate_obj(CgSceneGraphEntity *arg_entity, glm::vec3 arg_translation)
 {
     arg_entity->setCurrent_transformation(glm::translate(arg_entity->getCurrent_transformation(), arg_translation));
-    m_renderer->redraw();
+    //m_renderer->redraw();
 }
 
 void CgSceneControl::rotate_obj(CgSceneGraphEntity *arg_entity, glm::vec3 arg_rotation, float arg_angle)
 {
     arg_entity->setCurrent_transformation(glm::rotate(arg_entity->getCurrent_transformation(), arg_angle, arg_rotation));
-    m_renderer->redraw();
+    //m_renderer->redraw();
 
 }
 
@@ -276,6 +282,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgTransaltionAusfuerenEvent* ev = (CgTransaltionAusfuerenEvent*)e;
 
         translate_obj(current_Entity, ev->getTranslation());
+        m_renderer->redraw();
     }
 
     if(e->getType() & Cg::CgLokKoordZeichnenEvent)
@@ -284,11 +291,57 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         if (ev->getZeichnen())
         {
-            std::cout << "Lok Koord Zeichnen" << std::endl;
+            current_Entity->calculateCenter();
+            std::vector<glm::vec3> temp;
+
+            temp.push_back(current_Entity->getCenter());
+
+
+            temp.push_back(current_Entity->getCenter() + glm::vec3(1,0,0));
+            m_localX = new CgPolyline(temp);
+            m_renderer->init(m_localX);
+
+            eX = new CgSceneGraphEntity();
+            eX->addListObject(m_localX);
+            eX->getAppearance().setObject_color(glm::vec4(0,0,1,1));
+            current_Entity->addChild(eX);
+
+
+            temp.pop_back();
+            temp.push_back(current_Entity->getCenter() + glm::vec3(0,1,0));
+            m_localY = new CgPolyline(temp);
+            m_renderer->init(m_localY);
+
+            eY = new CgSceneGraphEntity();
+            eY->addListObject(m_localY);
+            eY->getAppearance().setObject_color(glm::vec4(0,1,0,1));
+            current_Entity->addChild(eY);
+
+
+            temp.pop_back();
+            temp.push_back(current_Entity->getCenter() + glm::vec3(0,0,1));
+            m_localZ = new CgPolyline(temp);
+            m_renderer->init(m_localZ);
+
+            eZ = new CgSceneGraphEntity();
+            eZ->addListObject(m_localZ);
+            eZ->getAppearance().setObject_color(glm::vec4(1,1,0,1));
+            current_Entity->addChild(eZ);
+
+
+            m_renderer->redraw();
+
+            //std::cout << "Lok Koord Zeichnen" << std::endl;
         }
         else
         {
-            std::cout << "Lok Koord löschen" << std::endl;
+            current_Entity->deleteLastChild();
+            current_Entity->deleteLastChild();
+            current_Entity->deleteLastChild();
+
+            m_renderer->redraw();
+
+            //std::cout << "Lok Koord löschen" << std::endl;
         }
     }
 
@@ -450,15 +503,25 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         if(ev->text()=="x")
         {
+            current_Entity->calculateCenter();
+            translate_obj(current_Entity, current_Entity->getCenter());
             rotate_obj(current_Entity, glm::vec3(1,0,0), M_PI/16);
+            translate_obj(current_Entity, current_Entity->getCenter() * glm::vec3(-1,-1,-1));
+            m_renderer->redraw();
         }
         if(ev->text()=="y")
         {
+            translate_obj(current_Entity, current_Entity->getCenter());
             rotate_obj(current_Entity, glm::vec3(0,1,0), M_PI/16);
+            translate_obj(current_Entity, current_Entity->getCenter() * glm::vec3(-1,-1,-1));
+            m_renderer->redraw();
         }
         if(ev->text()=="z")
         {
+            translate_obj(current_Entity, current_Entity->getCenter());
             rotate_obj(current_Entity, glm::vec3(0,0,1), M_PI/16);
+            translate_obj(current_Entity, current_Entity->getCenter() * glm::vec3(-1,-1,-1));
+            m_renderer->redraw();
         }
         if(ev->text()=="+")
         {
@@ -468,6 +531,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             //            m_renderer->redraw();
 
             scale_obj(current_Entity, glm::vec3(1.5));
+            m_renderer->redraw();
         }
         if(ev->text()=="-")
         {
@@ -479,6 +543,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             //            m_renderer->redraw();
 
             scale_obj(current_Entity, glm::vec3(0.666666667));
+            m_renderer->redraw();
         }
         if(ev->text()=="n")
         {
