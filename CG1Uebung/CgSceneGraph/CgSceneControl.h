@@ -31,6 +31,7 @@ public:
 
     void scale_obj(CgSceneGraphEntity* arg_entity, glm::vec3 arg_scale);
     void translate_obj(CgSceneGraphEntity* arg_entity, glm::vec3 arg_translation);
+    void rotate_obj(CgSceneGraphEntity* arg_entity, glm::vec3 arg_rotation, float arg_angle);
 private:
     CgExampleTriangle* m_triangle;
     CgBaseRenderer* m_renderer;

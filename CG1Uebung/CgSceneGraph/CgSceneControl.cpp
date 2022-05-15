@@ -25,6 +25,7 @@
 #include "CgScenegraph.h"
 #include "CgSceneGraphEntity.h"
 #include <stack>
+#include <math.h>
 
 bool draw_dice = true;
 bool draw_dice_normals = false;
@@ -64,9 +65,9 @@ CgSceneControl::CgSceneControl()
     e1->addListObject(m_polyline);
 
     e2 = new CgSceneGraphEntity();
-    e2->addListObject(m_triangle);
+    //e2->addListObject(m_triangle);
     e2->getAppearance().setObject_color(glm::vec3(0.0,1.0,0.0));
-    e2->addListObject(m_dice);
+    //e2->addListObject(m_dice);
     e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
 
     e1->addChild(e2);
@@ -258,6 +259,13 @@ void CgSceneControl::translate_obj(CgSceneGraphEntity *arg_entity, glm::vec3 arg
     m_renderer->redraw();
 }
 
+void CgSceneControl::rotate_obj(CgSceneGraphEntity *arg_entity, glm::vec3 arg_rotation, float arg_angle)
+{
+    arg_entity->setCurrent_transformation(glm::rotate(arg_entity->getCurrent_transformation(), arg_angle, arg_rotation));
+    m_renderer->redraw();
+
+}
+
 void CgSceneControl::handleEvent(CgBaseEvent* e)
 {
     // die Enums sind so gebaut, dass man alle Arten von MausEvents über CgEvent::CgMouseEvent abprüfen kann,
@@ -439,6 +447,19 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgKeyEvent* ev = (CgKeyEvent*)e;
         std::cout << *ev <<std::endl;
 
+
+        if(ev->text()=="x")
+        {
+            rotate_obj(current_Entity, glm::vec3(1,0,0), M_PI/16);
+        }
+        if(ev->text()=="y")
+        {
+            rotate_obj(current_Entity, glm::vec3(0,1,0), M_PI/16);
+        }
+        if(ev->text()=="z")
+        {
+            rotate_obj(current_Entity, glm::vec3(0,0,1), M_PI/16);
+        }
         if(ev->text()=="+")
         {
             //            glm::mat4 scalemat = glm::mat4(1.);
