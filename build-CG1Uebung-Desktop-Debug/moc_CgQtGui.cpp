@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_CgQtGui_t {
-    QByteArrayData data[17];
-    char stringdata0[348];
+    QByteArrayData data[19];
+    char stringdata0[415];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -47,7 +47,9 @@ QT_MOC_LITERAL(12, 191, 31), // "slotMyButtonChangedColorPressed"
 QT_MOC_LITERAL(13, 223, 28), // "slotButtonSchritteAusfuehren"
 QT_MOC_LITERAL(14, 252, 23), // "slotButtonSchritteReset"
 QT_MOC_LITERAL(15, 276, 35), // "slotButtonRotationskoerperErs..."
-QT_MOC_LITERAL(16, 312, 35) // "slotCheckboxNormalenZeichnenC..."
+QT_MOC_LITERAL(16, 312, 35), // "slotCheckboxNormalenZeichnenC..."
+QT_MOC_LITERAL(17, 348, 34), // "slotCheckboxLokKoordeichnenCh..."
+QT_MOC_LITERAL(18, 383, 31) // "slotButtonTranslationAusfuehren"
 
     },
     "CgQtGui\0mouseEvent\0\0QMouseEvent*\0event\0"
@@ -59,7 +61,9 @@ QT_MOC_LITERAL(16, 312, 35) // "slotCheckboxNormalenZeichnenC..."
     "slotButtonSchritteAusfuehren\0"
     "slotButtonSchritteReset\0"
     "slotButtonRotationskoerperErstellen\0"
-    "slotCheckboxNormalenZeichnenChanged"
+    "slotCheckboxNormalenZeichnenChanged\0"
+    "slotCheckboxLokKoordeichnenChanged\0"
+    "slotButtonTranslationAusfuehren"
 };
 #undef QT_MOC_LITERAL
 
@@ -69,7 +73,7 @@ static const uint qt_meta_data_CgQtGui[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      13,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -77,23 +81,27 @@ static const uint qt_meta_data_CgQtGui[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   79,    2, 0x08 /* Private */,
-       5,    2,   82,    2, 0x08 /* Private */,
-       6,    0,   87,    2, 0x08 /* Private */,
-       7,    0,   88,    2, 0x08 /* Private */,
-       8,    0,   89,    2, 0x08 /* Private */,
-       9,    0,   90,    2, 0x08 /* Private */,
-      10,    0,   91,    2, 0x08 /* Private */,
-      11,    0,   92,    2, 0x08 /* Private */,
-      12,    0,   93,    2, 0x08 /* Private */,
-      13,    0,   94,    2, 0x08 /* Private */,
-      14,    0,   95,    2, 0x08 /* Private */,
-      15,    0,   96,    2, 0x08 /* Private */,
-      16,    0,   97,    2, 0x08 /* Private */,
+       1,    1,   89,    2, 0x08 /* Private */,
+       5,    2,   92,    2, 0x08 /* Private */,
+       6,    0,   97,    2, 0x08 /* Private */,
+       7,    0,   98,    2, 0x08 /* Private */,
+       8,    0,   99,    2, 0x08 /* Private */,
+       9,    0,  100,    2, 0x08 /* Private */,
+      10,    0,  101,    2, 0x08 /* Private */,
+      11,    0,  102,    2, 0x08 /* Private */,
+      12,    0,  103,    2, 0x08 /* Private */,
+      13,    0,  104,    2, 0x08 /* Private */,
+      14,    0,  105,    2, 0x08 /* Private */,
+      15,    0,  106,    2, 0x08 /* Private */,
+      16,    0,  107,    2, 0x08 /* Private */,
+      17,    0,  108,    2, 0x08 /* Private */,
+      18,    0,  109,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,    2,    2,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -128,6 +136,8 @@ void CgQtGui::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 10: _t->slotButtonSchritteReset(); break;
         case 11: _t->slotButtonRotationskoerperErstellen(); break;
         case 12: _t->slotCheckboxNormalenZeichnenChanged(); break;
+        case 13: _t->slotCheckboxLokKoordeichnenChanged(); break;
+        case 14: _t->slotButtonTranslationAusfuehren(); break;
         default: ;
         }
     }
@@ -164,13 +174,13 @@ int CgQtGui::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 15)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 13;
+        _id -= 15;
     }
     return _id;
 }

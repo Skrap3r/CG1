@@ -73,7 +73,7 @@ CgSceneControl::CgSceneControl()
     //e4 = new CgSceneGraphEntity();
 
     e1->addListObject(m_polyline);
-    //e2->addListObject(m_dice);
+    e2->addListObject(m_dice);
     //e2->addListObject(m_triangle);
 
     e1->addChild(e2);
@@ -511,6 +511,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         }
         if(ev->text()=="y")
         {
+            current_Entity->calculateCenter();
             translate_obj(current_Entity, current_Entity->getCenter());
             rotate_obj(current_Entity, glm::vec3(0,1,0), M_PI/16);
             translate_obj(current_Entity, current_Entity->getCenter() * glm::vec3(-1,-1,-1));
@@ -518,6 +519,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         }
         if(ev->text()=="z")
         {
+            current_Entity->calculateCenter();
             translate_obj(current_Entity, current_Entity->getCenter());
             rotate_obj(current_Entity, glm::vec3(0,0,1), M_PI/16);
             translate_obj(current_Entity, current_Entity->getCenter() * glm::vec3(-1,-1,-1));
