@@ -51,10 +51,8 @@ void CgScenegraph::createListOfEntitys(CgSceneGraphEntity *arg_child)
 
     for(auto ent : arg_child->getChildren())
     {
-        if(ent != NULL)
-        {
-            createListOfEntitys(ent);
-        }
+        createListOfEntitys(ent);
+
     }
 }
 

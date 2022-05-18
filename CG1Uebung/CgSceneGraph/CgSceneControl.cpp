@@ -27,6 +27,7 @@
 #include <stack>
 #include <math.h>
 
+
 bool draw_dice = true;
 bool draw_dice_normals = false;
 bool draw_polyline = true;
@@ -42,6 +43,13 @@ CgSceneControl::CgSceneControl()
     eX = nullptr;
     eY = nullptr;
     eZ = nullptr;
+
+    root = nullptr;
+    root2 = nullptr;
+    e1 = nullptr;
+    e2 = nullptr;
+    e3 = nullptr;
+    e4 = nullptr;
 
     m_current_transformation=glm::mat4(1.);
     m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
@@ -67,34 +75,47 @@ CgSceneControl::CgSceneControl()
         }
     }
 
+    root = new CgSceneGraphEntity();
+    root2 = new CgSceneGraphEntity();
     e1 = new CgSceneGraphEntity();
     e2 = new CgSceneGraphEntity();
     e3 = new CgSceneGraphEntity();
-    //e4 = new CgSceneGraphEntity();
+    e4 = new CgSceneGraphEntity();
+
+    root->addChild(e1);
+    root->addChild(e2);
+    root->addChild(root2);
+    root->setCurrent_transformation(e1->getCurrent_transformation());
+
+    root2->addChild(e3);
+    root2->addChild(e4);
+    root2->setCurrent_transformation(e3->getCurrent_transformation());
+
 
     e1->addListObject(m_polyline);
     e2->addListObject(m_dice);
-    //e2->addListObject(m_triangle);
-
+    //e4->addListObject(m_triangle);
+/*
     e1->addChild(e2);
     e2->setParent(e1);
 
     e1->addChild(e3);
     e3->setParent(e1);
 
-    //e3->addChild(e4);
-    //e4->setParent(e3);
+    e3->addChild(e4);
+    e4->setParent(e3);
+*/
 
     e2->getAppearance().setObject_color(glm::vec3(0.0,1.0,0.0));
     e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
 
-    graph = new CgScenegraph(e1);
-    count = 0;
+    graph = new CgScenegraph(root);
 
     graph->createListOfEntitys(graph->getRoot());
     old_color = glm::vec4(e1->getAppearance().getObject_color(),1);
-    e1->getAppearance().setObject_color(glm::vec4(1,0,0,1));
-    current_Entity = e1;
+    //e1->getAppearance().setObject_color(glm::vec4(1,0,0,1));
+    current_Entity = root;
+    count = 0;
 }
 
 
@@ -291,13 +312,24 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         if (ev->getZeichnen())
         {
-            current_Entity->calculateCenter();
+            glm::vec3 center;
+            if(current_Entity->getList_of_objects().empty())
+            {
+                current_Entity->getChildren().at(0)->calculateCenter();
+                center = current_Entity->getChildren().at(0)->getCenter();
+            }
+            else
+            {
+                current_Entity->calculateCenter();
+                center = current_Entity->getCenter();
+            }
+
             std::vector<glm::vec3> temp;
 
-            temp.push_back(current_Entity->getCenter());
+            temp.push_back(center);
 
 
-            temp.push_back(current_Entity->getCenter() + glm::vec3(1,0,0));
+            temp.push_back(center + glm::vec3(1,0,0));
             m_localX = new CgPolyline(temp);
             m_renderer->init(m_localX);
 
@@ -308,7 +340,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
 
             temp.pop_back();
-            temp.push_back(current_Entity->getCenter() + glm::vec3(0,1,0));
+            temp.push_back(center + glm::vec3(0,1,0));
             m_localY = new CgPolyline(temp);
             m_renderer->init(m_localY);
 
@@ -319,7 +351,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
 
             temp.pop_back();
-            temp.push_back(current_Entity->getCenter() + glm::vec3(0,0,1));
+            temp.push_back(center + glm::vec3(0,0,1));
             m_localZ = new CgPolyline(temp);
             m_renderer->init(m_localZ);
 
@@ -386,16 +418,16 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
                     for(auto s : m_normalsRotation)
                     {
                         m_renderer->init(s);
-                        e3->addListObject(s);
+                        e4->addListObject(s);
                     }
                 }
 
                 std::cout << "Normalen gezeichnet" << std::endl;
             } else {
                 m_normalsRotation.clear();
-                while(!e3->getList_of_objects().empty())
+                while(!e4->getList_of_objects().empty())
                 {
-                    e3->deleteLastListOfObject();
+                    e4->deleteLastListOfObject();
                 }
                 std::cout << "Normalen gelöscht" << std::endl;
             }
@@ -419,7 +451,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             delete m_rotation;
             m_rotation = new CgRotation(m_polyline->getVertices(), ev->getSegmente());
             m_renderer->init(m_rotation);
-            e1->addListObject(m_rotation);
+            e3->addListObject(m_rotation);
             m_renderer->redraw();
             std::cout << "Rotationskörper Erstellung gestartet, Anzahl Segmente: " << ev->getSegmente() << std::endl;
         }
@@ -503,26 +535,59 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         if(ev->text()=="x")
         {
-            current_Entity->calculateCenter();
-            translate_obj(current_Entity, current_Entity->getCenter());
+            glm::vec3 center;
+            if(current_Entity->getList_of_objects().empty())
+            {
+                current_Entity->getChildren().at(0)->calculateCenter();
+                center = current_Entity->getChildren().at(0)->getCenter();
+            }
+            else
+            {
+                current_Entity->calculateCenter();
+                center = current_Entity->getCenter();
+            }
+
+            translate_obj(current_Entity, center);
             rotate_obj(current_Entity, glm::vec3(1,0,0), M_PI/16);
-            translate_obj(current_Entity, current_Entity->getCenter() * glm::vec3(-1,-1,-1));
+            translate_obj(current_Entity, center * glm::vec3(-1,-1,-1));
             m_renderer->redraw();
         }
         if(ev->text()=="y")
         {
-            current_Entity->calculateCenter();
-            translate_obj(current_Entity, current_Entity->getCenter());
+            glm::vec3 center;
+            if(current_Entity->getList_of_objects().empty())
+            {
+                current_Entity->getChildren().at(0)->calculateCenter();
+                center = current_Entity->getChildren().at(0)->getCenter();
+            }
+            else
+            {
+                current_Entity->calculateCenter();
+                center = current_Entity->getCenter();
+            }
+
+            translate_obj(current_Entity, center);
             rotate_obj(current_Entity, glm::vec3(0,1,0), M_PI/16);
-            translate_obj(current_Entity, current_Entity->getCenter() * glm::vec3(-1,-1,-1));
+            translate_obj(current_Entity, center * glm::vec3(-1,-1,-1));
             m_renderer->redraw();
         }
         if(ev->text()=="z")
         {
-            current_Entity->calculateCenter();
-            translate_obj(current_Entity, current_Entity->getCenter());
+            glm::vec3 center;
+            if(current_Entity->getList_of_objects().empty())
+            {
+                current_Entity->getChildren().at(0)->calculateCenter();
+                center = current_Entity->getChildren().at(0)->getCenter();
+            }
+            else
+            {
+                current_Entity->calculateCenter();
+                center = current_Entity->getCenter();
+            }
+
+            translate_obj(current_Entity, center);
             rotate_obj(current_Entity, glm::vec3(0,0,1), M_PI/16);
-            translate_obj(current_Entity, current_Entity->getCenter() * glm::vec3(-1,-1,-1));
+            translate_obj(current_Entity, center * glm::vec3(-1,-1,-1));
             m_renderer->redraw();
         }
         if(ev->text()=="+")
