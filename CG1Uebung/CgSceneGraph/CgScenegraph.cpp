@@ -34,6 +34,7 @@ void CgScenegraph::render(CgBaseRenderer* renderer, CgSceneGraphEntity *arg_chil
 
 
 
+
     for(auto ent : arg_child->getChildren())
     {
         if(ent != NULL)
@@ -52,7 +53,6 @@ void CgScenegraph::createListOfEntitys(CgSceneGraphEntity *arg_child)
     for(auto ent : arg_child->getChildren())
     {
         createListOfEntitys(ent);
-
     }
 }
 

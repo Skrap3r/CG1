@@ -27,11 +27,6 @@
 #include <stack>
 #include <math.h>
 
-
-bool draw_dice = true;
-bool draw_dice_normals = false;
-bool draw_polyline = true;
-
 CgSceneControl::CgSceneControl()
 {
     m_triangle=nullptr;
@@ -51,30 +46,113 @@ CgSceneControl::CgSceneControl()
     e3 = nullptr;
     e4 = nullptr;
 
+    root = nullptr;
+    root_table = nullptr;
+    root_chair = nullptr;
+    root_board = nullptr;
+    root_chest = nullptr;
+
+    tableplate = nullptr;
+    leg_1 = nullptr;
+    leg_2 = nullptr;
+    leg_3 = nullptr;
+    leg_4 = nullptr;
+
     m_current_transformation=glm::mat4(1.);
     m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
     m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
     m_trackball_rotation=glm::mat4(1.);
 
-
-
     m_triangle= new CgExampleTriangle();
 
-    if(draw_polyline)
-    {
-        m_polyline = new CgPolyline();
-        //std::cout <<  m_polyline->getVertices().size() << std::endl;
-    }
+    m_polyline = new CgPolyline();
 
-    if (draw_dice)
-    {
-        m_dice = new CgDice();
-        if(draw_dice_normals)
-        {
-            m_dice->calculate_normals();
-        }
-    }
+    m_dice = new CgDice();
+    //m_dice->calculate_normals();
 
+    //Uebung04();
+    Uebung05();
+
+}
+
+void CgSceneControl::Uebung05()
+{
+    root = new CgSceneGraphEntity();
+    e1 = new CgSceneGraphEntity();
+
+    root->addChild(e1);
+    root->setCurrent_transformation(e1->getCurrent_transformation());
+    root->setName("m_root");
+
+    e1->addListObject(m_dice);
+    e1->setName("Dice: e1");
+
+    graph = new CgScenegraph(root);
+
+    graph->createListOfEntitys(graph->getRoot());
+    old_color = glm::vec4(graph->getListOfEntitys().at(graph->getListOfEntitys().size()-1)->getAppearance().getObject_color(), 1);
+    current_Entity = root;
+    count = 0;
+
+    /*
+    root  = new CgSceneGraphEntity();
+    root->setName("root");
+
+    root_table = new CgSceneGraphEntity();
+    root_table->setName("Root_Table");
+
+    tableplate = new CgSceneGraphEntity();
+    tableplate->setName("tableplate");
+    tableplate->addListObject(m_dice);
+
+    leg_1 = new CgSceneGraphEntity();
+    leg_1->setName("leg_1");
+    leg_1->addListObject(m_dice);
+
+    leg_2 = new CgSceneGraphEntity();
+    leg_2->setName("leg_2");
+    leg_2->addListObject(m_dice);
+
+    leg_3 = new CgSceneGraphEntity();
+    leg_3->setName("leg_3");
+    leg_3->addListObject(m_dice);
+
+    leg_4 = new CgSceneGraphEntity();
+    leg_4->setName("leg_4");
+    leg_4->addListObject(m_dice);
+
+    root->addChild(root_table);
+    root->addChild(root_chair);
+    root->setCurrent_transformation(glm::mat4(1.));
+
+    root_table->addChild(tableplate);
+    root_table->setCurrent_transformation(tableplate->getCurrent_transformation());
+
+    root_table->addChild(root_chest);
+    root_table->addChild(root_board);
+
+    root_table->addChild(leg_1);
+    root_table->addChild(leg_2);
+    root_table->addChild(leg_3);
+    root_table->addChild(leg_4);
+
+    leg_1->setParent(root_table);
+    leg_2->setParent(root_table);
+    leg_3->setParent(root_table);
+    leg_4->setParent(root_table);
+
+    graph = new CgScenegraph(root);
+
+    graph->createListOfEntitys(root);
+    old_color = glm::vec4(1,0,1,0);
+    current_Entity = root;
+    count = 0;
+    */
+
+}
+
+void CgSceneControl::Uebung04()
+{
     root1 = new CgSceneGraphEntity();
     root2 = new CgSceneGraphEntity();
     e1 = new CgSceneGraphEntity();
@@ -102,7 +180,7 @@ CgSceneControl::CgSceneControl()
     e3->setName("Rotationskörper: e3");
     e4->setName("Normalen Rotationskörper: e4");
 
-/*
+    /*
     e1->addChild(e2);
     e2->setParent(e1);
 
@@ -116,12 +194,12 @@ CgSceneControl::CgSceneControl()
     e2->getAppearance().setObject_color(glm::vec3(0.0,1.0,0.0));
     //e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
     translate_obj(e2, glm::vec3(0,0,-2));
-    scale_obj(e2, glm::vec3(0.5,2,0.5));
+    scale_obj(e2, glm::vec3(1,2,1));
 
     graph = new CgScenegraph(root1);
 
     graph->createListOfEntitys(graph->getRoot());
-    old_color = glm::vec4(e1->getAppearance().getObject_color(),1);
+    old_color = glm::vec4(graph->getListOfEntitys().at(graph->getListOfEntitys().size()-1)->getAppearance().getObject_color(), 1);
     //e1->getAppearance().setObject_color(glm::vec4(1,0,0,1));
     current_Entity = root1;
     count = 0;
@@ -146,7 +224,7 @@ CgSceneControl::~CgSceneControl()
         }
     }
 
-    if (m_polyline != NULL && draw_polyline)
+    if (m_polyline != NULL)
     {
         delete m_polyline;
     }
@@ -539,7 +617,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() & Cg::CgKeyEvent)
     {
         CgKeyEvent* ev = (CgKeyEvent*)e;
-        std::cout << *ev <<std::endl;
+        //std::cout << *ev <<std::endl;
 
 
         if(ev->text()=="x")
@@ -646,7 +724,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
             m_renderer->redraw();
             //std::cout << count << std::endl;
-            std::cout << current_Entity->getName() << std::endl;
+            std::cout << count << ": " << current_Entity->getName() << std::endl;
         }
         // hier kommt jetzt die Abarbeitung des Events hin...
     }

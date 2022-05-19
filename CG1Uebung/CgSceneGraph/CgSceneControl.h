@@ -18,6 +18,10 @@ class CgSceneControl : public CgObserver, public CgBaseSceneControl
 {
 public:
     CgSceneControl();
+
+    void Uebung05();
+    void Uebung04();
+
     ~CgSceneControl();
     void handleEvent(CgBaseEvent* e);
     void setRenderer(CgBaseRenderer* r);
@@ -44,6 +48,22 @@ private:
     CgPolyline* m_localZ;
 
     CgScenegraph* graph;
+
+    //Uebung 05 Schachscene
+    CgSceneGraphEntity* root;
+    CgSceneGraphEntity* root_table;
+    CgSceneGraphEntity* root_chair;
+    CgSceneGraphEntity* root_board;
+    CgSceneGraphEntity* root_chest;
+
+    CgSceneGraphEntity* tableplate;
+    CgSceneGraphEntity* leg_1;
+    CgSceneGraphEntity* leg_2;
+    CgSceneGraphEntity* leg_3;
+    CgSceneGraphEntity* leg_4;
+
+
+
     CgSceneGraphEntity* root1;
     CgSceneGraphEntity* root2;
     CgSceneGraphEntity* e1;
