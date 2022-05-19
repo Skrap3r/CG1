@@ -44,7 +44,7 @@ private:
     CgPolyline* m_localZ;
 
     CgScenegraph* graph;
-    CgSceneGraphEntity* root;
+    CgSceneGraphEntity* root1;
     CgSceneGraphEntity* root2;
     CgSceneGraphEntity* e1;
     CgSceneGraphEntity* e2;

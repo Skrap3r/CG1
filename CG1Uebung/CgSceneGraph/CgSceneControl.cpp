@@ -44,7 +44,7 @@ CgSceneControl::CgSceneControl()
     eY = nullptr;
     eZ = nullptr;
 
-    root = nullptr;
+    root1 = nullptr;
     root2 = nullptr;
     e1 = nullptr;
     e2 = nullptr;
@@ -75,26 +75,33 @@ CgSceneControl::CgSceneControl()
         }
     }
 
-    root = new CgSceneGraphEntity();
+    root1 = new CgSceneGraphEntity();
     root2 = new CgSceneGraphEntity();
     e1 = new CgSceneGraphEntity();
     e2 = new CgSceneGraphEntity();
     e3 = new CgSceneGraphEntity();
     e4 = new CgSceneGraphEntity();
 
-    root->addChild(e1);
-    root->addChild(e2);
-    root->addChild(root2);
-    root->setCurrent_transformation(e1->getCurrent_transformation());
+    root1->addChild(e1);
+    root1->addChild(e2);
+    root1->addChild(root2);
+    root1->setCurrent_transformation(e1->getCurrent_transformation());
+    root1->setName("Rootgroup");
 
     root2->addChild(e3);
     root2->addChild(e4);
     root2->setCurrent_transformation(e3->getCurrent_transformation());
+    root2->setName("Group Rotationskörper");
 
 
     e1->addListObject(m_polyline);
+    e1->setName("Polyline Rotationskörper: e1");
     e2->addListObject(m_dice);
-    //e4->addListObject(m_triangle);
+    e2->setName("Dice: e2");
+
+    e3->setName("Rotationskörper: e3");
+    e4->setName("Normalen Rotationskörper: e4");
+
 /*
     e1->addChild(e2);
     e2->setParent(e1);
@@ -107,14 +114,16 @@ CgSceneControl::CgSceneControl()
 */
 
     e2->getAppearance().setObject_color(glm::vec3(0.0,1.0,0.0));
-    e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
+    //e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
+    translate_obj(e2, glm::vec3(0,0,-2));
+    scale_obj(e2, glm::vec3(0.5,2,0.5));
 
-    graph = new CgScenegraph(root);
+    graph = new CgScenegraph(root1);
 
     graph->createListOfEntitys(graph->getRoot());
     old_color = glm::vec4(e1->getAppearance().getObject_color(),1);
     //e1->getAppearance().setObject_color(glm::vec4(1,0,0,1));
-    current_Entity = root;
+    current_Entity = root1;
     count = 0;
 }
 
@@ -636,7 +645,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             current_Entity = graph->getListOfEntitys().at(count);
 
             m_renderer->redraw();
-            std::cout << count << std::endl;
+            //std::cout << count << std::endl;
+            std::cout << current_Entity->getName() << std::endl;
         }
         // hier kommt jetzt die Abarbeitung des Events hin...
     }

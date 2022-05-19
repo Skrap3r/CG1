@@ -5,6 +5,7 @@
 #include <vector>
 #include "CgBase/CgBaseRenderableObject.h"
 #include "CgAppearance.h"
+#include <string>
 
 class CgSceneGraphEntity
 {
@@ -40,6 +41,9 @@ public:
     glm::vec3 getCenter() const;
     void setCenter(const glm::vec3 &center);
 
+    std::string getName() const;
+    void setName(const std::string &name);
+
 private:
     std::vector<CgBaseRenderableObject*> list_of_objects;
     glm::mat4 m_current_transformation;
@@ -47,6 +51,8 @@ private:
     CgAppearance m_appearance;
 
     glm::vec3 m_center;
+
+    std::string m_name;
 
     CgSceneGraphEntity* m_parent;
     std::vector<CgSceneGraphEntity*> m_children;

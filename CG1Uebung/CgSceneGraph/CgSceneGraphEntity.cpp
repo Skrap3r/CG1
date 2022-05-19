@@ -109,3 +109,13 @@ void CgSceneGraphEntity::setCenter(const glm::vec3 &center)
     m_center = center;
 }
 
+std::string CgSceneGraphEntity::getName() const
+{
+    return m_name;
+}
+
+void CgSceneGraphEntity::setName(const std::string &name)
+{
+    m_name = name;
+}
+
