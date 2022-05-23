@@ -57,10 +57,13 @@ private:
     CgSceneGraphEntity* root_chest;
 
     CgSceneGraphEntity* tableplate;
+    CgSceneGraphEntity* chessBoard;
     CgSceneGraphEntity* leg_1;
     CgSceneGraphEntity* leg_2;
     CgSceneGraphEntity* leg_3;
     CgSceneGraphEntity* leg_4;
+    CgSceneGraphEntity* seat;
+    CgSceneGraphEntity* chestFloor;
 
 
 

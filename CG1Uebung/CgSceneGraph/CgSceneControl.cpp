@@ -53,6 +53,7 @@ CgSceneControl::CgSceneControl()
     root_chest = nullptr;
 
     tableplate = nullptr;
+    chessBoard = nullptr;
     leg_1 = nullptr;
     leg_2 = nullptr;
     leg_3 = nullptr;
@@ -64,28 +65,133 @@ CgSceneControl::CgSceneControl()
     m_trackball_rotation=glm::mat4(1.);
 
     m_triangle= new CgExampleTriangle();
-
-    m_polyline = new CgPolyline();
-
-    m_dice = new CgDice();
+    //m_polyline = new CgPolyline();
+    //m_dice = new CgDice();
     //m_dice->calculate_normals();
+    //m_rotation = new CgRotation();
 
     //Uebung04();
     Uebung05();
+
+
+    /*
+    ObjLoader* loader= new ObjLoader();
+    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/King.obj");
+
+    std::cout << "King.obj" << std::endl;
+
+    std::vector<glm::vec3> pos;
+    loader->getPositionData(pos);
+
+    std::vector<glm::vec3> norm;
+    loader->getNormalData(norm);
+
+    std::vector<unsigned int> indx;
+    loader->getFaceIndexData(indx);
+
+    m_triangle->init(pos,norm,indx);
+    */
 
 }
 
 void CgSceneControl::Uebung05()
 {
+    m_dice = new CgDice();
+
+    //Stuhl
+    seat = new CgSceneGraphEntity();
+    seat->setName("chair_seat");
+    //seat->addListObject(m_dice);
+
+    root_chair = new CgSceneGraphEntity();
+    root_chair->setName("root_chair");
+    root_chair->setCurrent_transformation(seat->getCurrent_transformation());
+    root_chair->addChild(seat);
+
+
+    //Kiste auf dem Tisch
+    chestFloor = new CgSceneGraphEntity();
+    chestFloor->setName("chest_Floor");
+    //chestFloor->addListObject(m_dice);
+
+    root_chest = new CgSceneGraphEntity();
+    root_chest->setName("root_chest");
+    root_chest->setCurrent_transformation(chestFloor->getCurrent_transformation());
+    root_chest->addChild(chestFloor);
+
+
+    //Schachbrett
+    chessBoard = new CgSceneGraphEntity();
+    chessBoard->setName("chess_Board");
+    chessBoard->addListObject(m_dice);
+
+    root_board = new CgSceneGraphEntity();
+    root_board->setName("root_board");
+    root_board->setCurrent_transformation(chessBoard->getCurrent_transformation());
+    root_board->addChild(chessBoard);
+
+
+    //Tisch
+    leg_4 = new CgSceneGraphEntity();
+    leg_4->setName("leg_4");
+    leg_4->addListObject(m_dice);
+
+    leg_3 = new CgSceneGraphEntity();
+    leg_3->setName("leg_3");
+    leg_3->addListObject(m_dice);
+
+    leg_2 = new CgSceneGraphEntity();
+    leg_2->setName("leg_2");
+    leg_2->addListObject(m_dice);
+
+    leg_1 = new CgSceneGraphEntity();
+    leg_1->setName("leg_1");
+    leg_1->addListObject(m_dice);
+
+    tableplate = new CgSceneGraphEntity();
+    tableplate->setName("tableplate");
+    tableplate->addListObject(m_dice);
+    tableplate->getAppearance().setObject_color(glm::vec3(0,1,0));
+
+    root_table = new CgSceneGraphEntity();
+    root_table->setName("root_table");
+    root_table->setCurrent_transformation(tableplate->getCurrent_transformation());
+    root_table->addChild(tableplate);
+    root_table->addChild(leg_1);
+    root_table->addChild(leg_2);
+    root_table->addChild(leg_3);
+    root_table->addChild(leg_4);
+    root_table->addChild(root_board);
+    root_table->addChild(root_chest);
+
+
+    //Root Element
     root = new CgSceneGraphEntity();
-    e1 = new CgSceneGraphEntity();
-
-    root->addChild(e1);
-    root->setCurrent_transformation(e1->getCurrent_transformation());
     root->setName("m_root");
+    root->setCurrent_transformation(glm::mat4(1.));
+    root->addChild(root_table);
+    root->addChild(root_chair);
 
-    e1->addListObject(m_dice);
-    e1->setName("Dice: e1");
+
+    translate_obj(tableplate, glm::vec3(0,1,0));
+    scale_obj(tableplate, glm::vec3(2,0.1,2));
+
+    translate_obj(leg_1, glm::vec3(0.9,0,0.9));
+    scale_obj(leg_1, glm::vec3(0.1,2,0.1));
+
+    translate_obj(leg_2, glm::vec3(0.9,0,-0.9));
+    scale_obj(leg_2, glm::vec3(0.1,2,0.1));
+
+    translate_obj(leg_3, glm::vec3(-0.9,0,-0.9));
+    scale_obj(leg_3, glm::vec3(0.1,2,0.1));
+
+    translate_obj(leg_4, glm::vec3(-0.9,0,0.9));
+    scale_obj(leg_4, glm::vec3(0.1,2,0.1));
+
+    translate_obj(chessBoard, glm::vec3(0,1.075,0));
+    scale_obj(chessBoard, glm::vec3(1.2,0.05,1.2));
+
+
 
     graph = new CgScenegraph(root);
 
@@ -93,66 +199,13 @@ void CgSceneControl::Uebung05()
     old_color = glm::vec4(graph->getListOfEntitys().at(graph->getListOfEntitys().size()-1)->getAppearance().getObject_color(), 1);
     current_Entity = root;
     count = 0;
-
-    /*
-    root  = new CgSceneGraphEntity();
-    root->setName("root");
-
-    root_table = new CgSceneGraphEntity();
-    root_table->setName("Root_Table");
-
-    tableplate = new CgSceneGraphEntity();
-    tableplate->setName("tableplate");
-    tableplate->addListObject(m_dice);
-
-    leg_1 = new CgSceneGraphEntity();
-    leg_1->setName("leg_1");
-    leg_1->addListObject(m_dice);
-
-    leg_2 = new CgSceneGraphEntity();
-    leg_2->setName("leg_2");
-    leg_2->addListObject(m_dice);
-
-    leg_3 = new CgSceneGraphEntity();
-    leg_3->setName("leg_3");
-    leg_3->addListObject(m_dice);
-
-    leg_4 = new CgSceneGraphEntity();
-    leg_4->setName("leg_4");
-    leg_4->addListObject(m_dice);
-
-    root->addChild(root_table);
-    root->addChild(root_chair);
-    root->setCurrent_transformation(glm::mat4(1.));
-
-    root_table->addChild(tableplate);
-    root_table->setCurrent_transformation(tableplate->getCurrent_transformation());
-
-    root_table->addChild(root_chest);
-    root_table->addChild(root_board);
-
-    root_table->addChild(leg_1);
-    root_table->addChild(leg_2);
-    root_table->addChild(leg_3);
-    root_table->addChild(leg_4);
-
-    leg_1->setParent(root_table);
-    leg_2->setParent(root_table);
-    leg_3->setParent(root_table);
-    leg_4->setParent(root_table);
-
-    graph = new CgScenegraph(root);
-
-    graph->createListOfEntitys(root);
-    old_color = glm::vec4(1,0,1,0);
-    current_Entity = root;
-    count = 0;
-    */
-
 }
 
 void CgSceneControl::Uebung04()
 {
+    m_polyline = new CgPolyline();
+    m_dice = new CgDice();
+
     root1 = new CgSceneGraphEntity();
     root2 = new CgSceneGraphEntity();
     e1 = new CgSceneGraphEntity();
@@ -297,10 +350,10 @@ void CgSceneControl::renderObjects()
     m_renderer->setUniformValue("normalMatrix",normal_matrix);
     setCurrentMatrix();
     graph->render(m_renderer);
-    /*
     if(m_triangle!=NULL)
         m_renderer->render(m_triangle);
 
+    /*
     if(!m_normalsRotation.empty())
     {
         for(auto s : m_normalsRotation)
