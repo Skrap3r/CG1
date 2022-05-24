@@ -34,37 +34,16 @@ CgSceneControl::CgSceneControl()
     m_polyline = nullptr;
     m_rotation = nullptr;
     m_localX = nullptr;
-
-    eX = nullptr;
-    eY = nullptr;
-    eZ = nullptr;
-
-    root1 = nullptr;
-    root2 = nullptr;
-    e1 = nullptr;
-    e2 = nullptr;
-    e3 = nullptr;
-    e4 = nullptr;
-
-    root = nullptr;
-    root_table = nullptr;
-    root_chair = nullptr;
-    root_board = nullptr;
-    root_chest = nullptr;
-
-    tableplate = nullptr;
-    chessBoard = nullptr;
-    leg_1 = nullptr;
-    leg_2 = nullptr;
-    leg_3 = nullptr;
-    leg_4 = nullptr;
+    m_localY = nullptr;
+    m_localZ = nullptr;
+    m_person = nullptr;
 
     m_current_transformation=glm::mat4(1.);
     m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
     m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
     m_trackball_rotation=glm::mat4(1.);
 
-    m_triangle= new CgExampleTriangle();
+    //m_triangle= new CgExampleTriangle();
     //m_polyline = new CgPolyline();
     //m_dice = new CgDice();
     //m_dice->calculate_normals();
@@ -73,51 +52,98 @@ CgSceneControl::CgSceneControl()
     //Uebung04();
     Uebung05();
 
-
-    /*
-    ObjLoader* loader= new ObjLoader();
-    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/King.obj");
-
-    std::cout << "King.obj" << std::endl;
-
-    std::vector<glm::vec3> pos;
-    loader->getPositionData(pos);
-
-    std::vector<glm::vec3> norm;
-    loader->getNormalData(norm);
-
-    std::vector<unsigned int> indx;
-    loader->getFaceIndexData(indx);
-
-    m_triangle->init(pos,norm,indx);
-    */
-
 }
 
 void CgSceneControl::Uebung05()
 {
     m_dice = new CgDice();
+    m_person = new CgDice();
+
+    ObjLoader* loader= new ObjLoader();
+    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Man_sitting.obj");
+
+    std::vector<glm::vec3> pos;
+    std::vector<glm::vec3> norm;
+    std::vector<unsigned int> indx;
+
+    loader->getPositionData(pos);
+    loader->getNormalData(norm);
+    loader->getFaceIndexData(indx);
+
+    m_person->init(pos,norm,indx);
+
 
     //Stuhl
-    seat = new CgSceneGraphEntity();
-    seat->setName("chair_seat");
-    //seat->addListObject(m_dice);
+    person = new CgSceneGraphEntity();
+    person->setName("person");
+    person->addListObject(m_person);
+    person->getAppearance().setObject_color(glm::vec3(0,1,0));
+
+    seatLeg_1 = new CgSceneGraphEntity;
+    seatLeg_1->setName("seatLeg_1");
+    seatLeg_1->addListObject(m_dice);
+
+    seatLeg_2 = new CgSceneGraphEntity;
+    seatLeg_2->setName("seatLeg_2");
+    seatLeg_2->addListObject(m_dice);
+
+    seatLeg_3 = new CgSceneGraphEntity;
+    seatLeg_3->setName("seatLeg_3");
+    seatLeg_3->addListObject(m_dice);
+
+    seatLeg_4 = new CgSceneGraphEntity;
+    seatLeg_4->setName("seatLeg_4");
+    seatLeg_4->addListObject(m_dice);
+
+    seatRest = new CgSceneGraphEntity;
+    seatRest->setName("seatRest");
+    seatRest->addListObject(m_dice);
+
+    chairSeat = new CgSceneGraphEntity();
+    chairSeat->setName("chair_seat");
+    chairSeat->addListObject(m_dice);
 
     root_chair = new CgSceneGraphEntity();
     root_chair->setName("root_chair");
-    root_chair->setCurrent_transformation(seat->getCurrent_transformation());
-    root_chair->addChild(seat);
+    root_chair->setCurrent_transformation(chairSeat->getCurrent_transformation());
+    root_chair->addChild(chairSeat);
+    root_chair->addChild(seatLeg_1);
+    root_chair->addChild(seatLeg_2);
+    root_chair->addChild(seatLeg_3);
+    root_chair->addChild(seatLeg_4);
+    root_chair->addChild(seatRest);
+    root_chair->addChild(person);
 
 
     //Kiste auf dem Tisch
     chestFloor = new CgSceneGraphEntity();
     chestFloor->setName("chest_Floor");
-    //chestFloor->addListObject(m_dice);
+    chestFloor->addListObject(m_dice);
+
+    chestWall_1 = new CgSceneGraphEntity();
+    chestWall_1->setName("chestWall_1");
+    chestWall_1->addListObject(m_dice);
+
+    chestWall_2= new CgSceneGraphEntity();
+    chestWall_2->setName("chestWall_2");
+    chestWall_2->addListObject(m_dice);
+
+    chestWall_3= new CgSceneGraphEntity();
+    chestWall_3->setName("chestWall_3");
+    chestWall_3->addListObject(m_dice);
+
+    chestWall_4= new CgSceneGraphEntity();
+    chestWall_4->setName("chestWall_4");
+    chestWall_4->addListObject(m_dice);
 
     root_chest = new CgSceneGraphEntity();
     root_chest->setName("root_chest");
     root_chest->setCurrent_transformation(chestFloor->getCurrent_transformation());
     root_chest->addChild(chestFloor);
+    root_chest->addChild(chestWall_1);
+    root_chest->addChild(chestWall_2);
+    root_chest->addChild(chestWall_3);
+    root_chest->addChild(chestWall_4);
 
 
     //Schachbrett
@@ -172,7 +198,7 @@ void CgSceneControl::Uebung05()
     root->addChild(root_table);
     root->addChild(root_chair);
 
-
+    //Tisch
     translate_obj(tableplate, glm::vec3(0,1,0));
     scale_obj(tableplate, glm::vec3(2,0.1,2));
 
@@ -188,8 +214,52 @@ void CgSceneControl::Uebung05()
     translate_obj(leg_4, glm::vec3(-0.9,0,0.9));
     scale_obj(leg_4, glm::vec3(0.1,2,0.1));
 
+    //Schachnbrett
     translate_obj(chessBoard, glm::vec3(0,1.075,0));
     scale_obj(chessBoard, glm::vec3(1.2,0.05,1.2));
+
+    //Kiste
+    scale_obj(chestFloor, glm::vec3(0.4,0.025,0.2));
+
+    translate_obj(chestWall_1, glm::vec3(0,0.0625,-0.0875));
+    scale_obj(chestWall_1, glm::vec3(0.4,0.1,0.025));
+
+    translate_obj(chestWall_2, glm::vec3(-0.1875,0.0625,0));
+    scale_obj(chestWall_2, glm::vec3(0.025,0.1,0.15));
+
+    translate_obj(chestWall_3, glm::vec3(0,0.0625,0.0875));
+    scale_obj(chestWall_3, glm::vec3(0.4,0.1,0.025));
+
+    translate_obj(chestWall_4, glm::vec3(0.1875,0.0625,0));
+    scale_obj(chestWall_4, glm::vec3(0.025,0.1,0.15));
+
+    translate_obj(root_chest, glm::vec3(0,1.0625,-0.8125));
+
+    //Stuhl
+    translate_obj(chairSeat, glm::vec3(-2.2,0.2,0));
+    scale_obj(chairSeat, glm::vec3(1.5,0.1,1.5));
+
+    translate_obj(seatRest, glm::vec3(-2.9,1.25,0));
+    scale_obj(seatRest, glm::vec3(0.1,2,1.5));
+
+    translate_obj(seatLeg_1, glm::vec3(-1.6,-0.425,0.6));
+    scale_obj(seatLeg_1, glm::vec3(0.1,1.15,0.1));
+
+    translate_obj(seatLeg_2, glm::vec3(-1.6,-0.425,-0.6));
+    scale_obj(seatLeg_2, glm::vec3(0.1,1.15,0.1));
+
+    translate_obj(seatLeg_3, glm::vec3(-2.8,-0.425,-0.6));
+    scale_obj(seatLeg_3, glm::vec3(0.1,1.15,0.1));
+
+    translate_obj(seatLeg_4, glm::vec3(-2.8,-0.425,0.6));
+    scale_obj(seatLeg_4, glm::vec3(0.1,1.15,0.1));
+
+    translate_obj(root_chair, glm::vec3(0.5,0,0));
+
+    //Person
+    rotate_obj(person, glm::vec3(0,1,0), M_PI/2);
+    translate_obj(person, glm::vec3(0,-1,-1));
+    scale_obj(person, glm::vec3(0.075));
 
 
 
@@ -301,6 +371,11 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     m_renderer=r;
     m_renderer->setSceneControl(this);
 
+
+    if(m_person!= NULL)
+    {
+        m_renderer->init(m_person);
+    }
     if(m_triangle!=NULL)
         m_renderer->init(m_triangle);
 
@@ -350,10 +425,10 @@ void CgSceneControl::renderObjects()
     m_renderer->setUniformValue("normalMatrix",normal_matrix);
     setCurrentMatrix();
     graph->render(m_renderer);
+    /*
     if(m_triangle!=NULL)
         m_renderer->render(m_triangle);
 
-    /*
     if(!m_normalsRotation.empty())
     {
         for(auto s : m_normalsRotation)

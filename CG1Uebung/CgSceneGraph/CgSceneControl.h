@@ -37,9 +37,11 @@ public:
     void translate_obj(CgSceneGraphEntity* arg_entity, glm::vec3 arg_translation);
     void rotate_obj(CgSceneGraphEntity* arg_entity, glm::vec3 arg_rotation, float arg_angle);
 private:
-    CgExampleTriangle* m_triangle;
     CgBaseRenderer* m_renderer;
+
+    CgExampleTriangle* m_triangle;
     CgDice* m_dice;
+    CgDice* m_person;
     CgPolyline* m_polyline;
     CgRotation* m_rotation;
 
@@ -57,13 +59,26 @@ private:
     CgSceneGraphEntity* root_chest;
 
     CgSceneGraphEntity* tableplate;
-    CgSceneGraphEntity* chessBoard;
     CgSceneGraphEntity* leg_1;
     CgSceneGraphEntity* leg_2;
     CgSceneGraphEntity* leg_3;
     CgSceneGraphEntity* leg_4;
-    CgSceneGraphEntity* seat;
+
+    CgSceneGraphEntity* chessBoard;
+
     CgSceneGraphEntity* chestFloor;
+    CgSceneGraphEntity* chestWall_1;
+    CgSceneGraphEntity* chestWall_2;
+    CgSceneGraphEntity* chestWall_3;
+    CgSceneGraphEntity* chestWall_4;
+
+    CgSceneGraphEntity* chairSeat;
+    CgSceneGraphEntity* seatRest;
+    CgSceneGraphEntity* seatLeg_1;
+    CgSceneGraphEntity* seatLeg_2;
+    CgSceneGraphEntity* seatLeg_3;
+    CgSceneGraphEntity* seatLeg_4;
+    CgSceneGraphEntity* person;
 
 
 
