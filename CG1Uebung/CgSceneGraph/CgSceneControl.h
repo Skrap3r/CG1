@@ -41,7 +41,6 @@ private:
 
     CgExampleTriangle* m_triangle;
     CgDice* m_dice;
-    CgDice* m_person;
     CgPolyline* m_polyline;
     CgRotation* m_rotation;
 
@@ -52,6 +51,13 @@ private:
     CgScenegraph* graph;
 
     //Uebung 05 Schachscene
+    CgDice* m_person;
+    CgDice* m_rook;
+    CgDice* m_bishop;
+    CgDice* m_kinght;
+    CgDice* m_king;
+    CgDice* m_queen;
+
     CgSceneGraphEntity* root;
     CgSceneGraphEntity* root_table;
     CgSceneGraphEntity* root_chair;
@@ -65,6 +71,23 @@ private:
     CgSceneGraphEntity* leg_4;
 
     CgSceneGraphEntity* chessBoard;
+    CgSceneGraphEntity* t1_king;
+    CgSceneGraphEntity* t1_queen;
+    CgSceneGraphEntity* t1_knight1;
+    CgSceneGraphEntity* t1_knight2;
+    CgSceneGraphEntity* t1_bishop1;
+    CgSceneGraphEntity* t1_bishop2;
+    CgSceneGraphEntity* t1_rook1;
+    CgSceneGraphEntity* t1_rook2;
+
+    CgSceneGraphEntity* t2_king;
+    CgSceneGraphEntity* t2_queen;
+    CgSceneGraphEntity* t2_knight1;
+    CgSceneGraphEntity* t2_knight2;
+    CgSceneGraphEntity* t2_bishop1;
+    CgSceneGraphEntity* t2_bishop2;
+    CgSceneGraphEntity* t2_rook1;
+    CgSceneGraphEntity* t2_rook2;
 
     CgSceneGraphEntity* chestFloor;
     CgSceneGraphEntity* chestWall_1;

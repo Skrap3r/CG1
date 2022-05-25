@@ -38,6 +38,12 @@ CgSceneControl::CgSceneControl()
     m_localZ = nullptr;
     m_person = nullptr;
 
+    m_rook = nullptr;
+    m_bishop = nullptr;
+    m_kinght = nullptr;
+    m_king = nullptr;
+    m_queen = nullptr;
+
     m_current_transformation=glm::mat4(1.);
     m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
     m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
@@ -58,13 +64,20 @@ void CgSceneControl::Uebung05()
 {
     m_dice = new CgDice();
     m_person = new CgDice();
+    m_king = new CgDice();
+    m_rook = new CgDice();
+    m_bishop = new CgDice();
+    m_kinght = new CgDice();
+    m_queen = new CgDice();
 
     ObjLoader* loader= new ObjLoader();
-    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Man_sitting.obj");
+    //loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Man_sitting.obj");
 
     std::vector<glm::vec3> pos;
     std::vector<glm::vec3> norm;
     std::vector<unsigned int> indx;
+
+    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Man_sitting.obj");
 
     loader->getPositionData(pos);
     loader->getNormalData(norm);
@@ -72,6 +85,13 @@ void CgSceneControl::Uebung05()
 
     m_person->init(pos,norm,indx);
 
+    //    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/King.obj");
+
+    //    loader->getPositionData(pos);
+    //    loader->getNormalData(norm);
+    //    loader->getFaceIndexData(indx);
+
+    //    m_king->init(pos,norm,indx);
 
     //Stuhl
     person = new CgSceneGraphEntity();
@@ -151,10 +171,50 @@ void CgSceneControl::Uebung05()
     chessBoard->setName("chess_Board");
     chessBoard->addListObject(m_dice);
 
+    t1_king = new CgSceneGraphEntity();
+    t1_king->setName("t1_king");
+    t1_king->addListObject(m_king);
+
+    t1_queen = new CgSceneGraphEntity();
+    t1_queen->setName("t1_queen");
+    t1_knight1 = new CgSceneGraphEntity();
+    t1_knight1->setName("t1_knight1");
+    t1_knight2 = new CgSceneGraphEntity();
+    t1_knight2->setName("t1_knight2");
+    t1_bishop1 = new CgSceneGraphEntity();
+    t1_bishop1->setName("t1_bishop1");
+    t1_bishop2 = new CgSceneGraphEntity();
+    t1_bishop2->setName("t1_bishop2");
+    t1_rook2 = new CgSceneGraphEntity();
+    t1_rook2->setName("t1_rook2");
+
+
+    t2_king = new CgSceneGraphEntity();
+    t2_king->setName("t2_king");
+    t2_king->addListObject(m_king);
+
+
+    t2_queen = new CgSceneGraphEntity();
+    t2_queen->setName("t2_queen");
+    t2_knight1 = new CgSceneGraphEntity();
+    t2_knight1->setName("t2_knight1");
+    t2_knight2 = new CgSceneGraphEntity();
+    t2_knight2->setName("t2_knight2");
+    t2_bishop1 = new CgSceneGraphEntity();
+    t2_bishop1->setName("t2_bishop1");
+    t2_bishop2 = new CgSceneGraphEntity();
+    t2_bishop2->setName("t2_bishop2");
+    t2_rook1 = new CgSceneGraphEntity();
+    t2_rook1->setName("t2_rook1");
+    t2_rook2 = new CgSceneGraphEntity();
+    t2_rook2->setName("t2_rook2");
+
     root_board = new CgSceneGraphEntity();
     root_board->setName("root_board");
     root_board->setCurrent_transformation(chessBoard->getCurrent_transformation());
     root_board->addChild(chessBoard);
+    root_board->addChild(t1_king);
+    root_board->addChild(t2_king);
 
 
     //Tisch
@@ -196,7 +256,7 @@ void CgSceneControl::Uebung05()
     root->setName("m_root");
     root->setCurrent_transformation(glm::mat4(1.));
     root->addChild(root_table);
-    root->addChild(root_chair);
+    //root->addChild(root_chair);
 
     //Tisch
     translate_obj(tableplate, glm::vec3(0,1,0));
@@ -295,7 +355,7 @@ void CgSceneControl::Uebung04()
     root2->setName("Group Rotationskörper");
 
 
-    e1->addListObject(m_polyline);
+    //e1->addListObject(m_polyline);
     e1->setName("Polyline Rotationskörper: e1");
     e2->addListObject(m_dice);
     e2->setName("Dice: e2");
@@ -312,12 +372,11 @@ void CgSceneControl::Uebung04()
 
     e3->addChild(e4);
     e4->setParent(e3);
-*/
+    */
 
     e2->getAppearance().setObject_color(glm::vec3(0.0,1.0,0.0));
-    //e2->setCurrent_transformation(m_lookAt_matrix * e1->getCurrent_transformation()*glm::mat4(glm::vec4(1,0,0,0),glm::vec4(0,1,0,0),glm::vec4(0,0,1,0),glm::vec4(0,0,0,1)));
     translate_obj(e2, glm::vec3(0,0,-2));
-    scale_obj(e2, glm::vec3(1,2,1));
+    //scale_obj(e2, glm::vec3(1,2,1));
 
     graph = new CgScenegraph(root1);
 

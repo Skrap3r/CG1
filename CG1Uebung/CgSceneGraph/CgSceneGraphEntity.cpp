@@ -25,7 +25,7 @@ void CgSceneGraphEntity::calculateCenter()
             count++;
         }
     }
-    m_center = center /glm::vec3(count);
+    m_center = center / glm::vec3(count);
 }
 
 void CgSceneGraphEntity::deleteLastChild()
