@@ -54,7 +54,7 @@ private:
     CgDice* m_person;
     CgDice* m_rook;
     CgDice* m_bishop;
-    CgDice* m_kinght;
+    CgDice* m_knight;
     CgDice* m_king;
     CgDice* m_queen;
 
@@ -63,6 +63,7 @@ private:
     CgSceneGraphEntity* root_chair;
     CgSceneGraphEntity* root_board;
     CgSceneGraphEntity* root_chest;
+    CgSceneGraphEntity* root_chessPieces;
 
     CgSceneGraphEntity* tableplate;
     CgSceneGraphEntity* leg_1;

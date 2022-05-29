@@ -40,7 +40,7 @@ CgSceneControl::CgSceneControl()
 
     m_rook = nullptr;
     m_bishop = nullptr;
-    m_kinght = nullptr;
+    m_knight = nullptr;
     m_king = nullptr;
     m_queen = nullptr;
 
@@ -67,17 +67,17 @@ void CgSceneControl::Uebung05()
     m_king = new CgDice();
     m_rook = new CgDice();
     m_bishop = new CgDice();
-    m_kinght = new CgDice();
+    m_knight = new CgDice();
     m_queen = new CgDice();
 
     ObjLoader* loader= new ObjLoader();
-    //loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Man_sitting.obj");
 
     std::vector<glm::vec3> pos;
     std::vector<glm::vec3> norm;
     std::vector<unsigned int> indx;
 
-    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Man_sitting.obj");
+    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Man_sitting.obj");
+    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Man_sitting.obj");
 
     loader->getPositionData(pos);
     loader->getNormalData(norm);
@@ -85,19 +85,56 @@ void CgSceneControl::Uebung05()
 
     m_person->init(pos,norm,indx);
 
-    //    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/King.obj");
+    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Queen.obj");
+    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Queen.obj");
 
-    //    loader->getPositionData(pos);
-    //    loader->getNormalData(norm);
-    //    loader->getFaceIndexData(indx);
+    loader->getPositionData(pos);
+    loader->getNormalData(norm);
+    loader->getFaceIndexData(indx);
 
-    //    m_king->init(pos,norm,indx);
+    m_queen->init(pos,norm,indx);
+
+    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Knight.obj");
+    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Knight.obj");
+
+    loader->getPositionData(pos);
+    loader->getNormalData(norm);
+    loader->getFaceIndexData(indx);
+
+    m_knight->init(pos,norm,indx);
+
+    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Bishop.obj");
+    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Bishop.obj");
+
+    loader->getPositionData(pos);
+    loader->getNormalData(norm);
+    loader->getFaceIndexData(indx);
+
+    m_bishop->init(pos,norm,indx);
+
+    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/King.obj");
+    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/King.obj");
+
+    loader->getPositionData(pos);
+    loader->getNormalData(norm);
+    loader->getFaceIndexData(indx);
+
+    m_king->init(pos,norm,indx);
+
+    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Rook.obj");
+    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Rook.obj");
+
+    loader->getPositionData(pos);
+    loader->getNormalData(norm);
+    loader->getFaceIndexData(indx);
+
+    m_rook->init(pos,norm,indx);
 
     //Stuhl
     person = new CgSceneGraphEntity();
     person->setName("person");
     person->addListObject(m_person);
-    person->getAppearance().setObject_color(glm::vec3(0,1,0));
+    //person->getAppearance().setObject_color(glm::vec3(0,1,0));
 
     seatLeg_1 = new CgSceneGraphEntity;
     seatLeg_1->setName("seatLeg_1");
@@ -177,44 +214,92 @@ void CgSceneControl::Uebung05()
 
     t1_queen = new CgSceneGraphEntity();
     t1_queen->setName("t1_queen");
+    t1_queen->addListObject(m_queen);
+
     t1_knight1 = new CgSceneGraphEntity();
     t1_knight1->setName("t1_knight1");
+    t1_knight1->addListObject(m_knight);
+
     t1_knight2 = new CgSceneGraphEntity();
     t1_knight2->setName("t1_knight2");
+    t1_knight2->addListObject(m_knight);
+
     t1_bishop1 = new CgSceneGraphEntity();
     t1_bishop1->setName("t1_bishop1");
+    t1_bishop1->addListObject(m_bishop);
+
     t1_bishop2 = new CgSceneGraphEntity();
     t1_bishop2->setName("t1_bishop2");
+    t1_bishop2->addListObject(m_bishop);
+
+    t1_rook1 = new CgSceneGraphEntity();
+    t1_rook1->setName("t1_rook1");
+    t1_rook1->addListObject(m_rook);
+
     t1_rook2 = new CgSceneGraphEntity();
     t1_rook2->setName("t1_rook2");
+    t1_rook2->addListObject(m_rook);
 
 
     t2_king = new CgSceneGraphEntity();
     t2_king->setName("t2_king");
     t2_king->addListObject(m_king);
 
-
     t2_queen = new CgSceneGraphEntity();
     t2_queen->setName("t2_queen");
+    t2_queen->addListObject(m_queen);
+
     t2_knight1 = new CgSceneGraphEntity();
     t2_knight1->setName("t2_knight1");
+    t2_knight1->addListObject(m_knight);
+
     t2_knight2 = new CgSceneGraphEntity();
     t2_knight2->setName("t2_knight2");
+    t2_knight2->addListObject(m_knight);
+
     t2_bishop1 = new CgSceneGraphEntity();
     t2_bishop1->setName("t2_bishop1");
+    t2_bishop1->addListObject(m_bishop);
+
     t2_bishop2 = new CgSceneGraphEntity();
     t2_bishop2->setName("t2_bishop2");
+    t2_bishop2->addListObject(m_bishop);
+
     t2_rook1 = new CgSceneGraphEntity();
     t2_rook1->setName("t2_rook1");
+    t2_rook1->addListObject(m_rook);
+
     t2_rook2 = new CgSceneGraphEntity();
     t2_rook2->setName("t2_rook2");
+    t2_rook2->addListObject(m_rook);
+
+    root_chessPieces = new CgSceneGraphEntity();
+    root_chessPieces->setName("root_chessPieces");
+    root_chessPieces->setCurrent_transformation(glm::mat4(1.));
+    root_chessPieces->addChild(t1_king);
+    root_chessPieces->addChild(t1_queen);
+    root_chessPieces->addChild(t1_knight1);
+    root_chessPieces->addChild(t1_knight2);
+    root_chessPieces->addChild(t1_bishop1);
+    root_chessPieces->addChild(t1_bishop2);
+    root_chessPieces->addChild(t1_rook1);
+    root_chessPieces->addChild(t1_rook2);
+
+    root_chessPieces->addChild(t2_king);
+    root_chessPieces->addChild(t2_queen);
+    root_chessPieces->addChild(t2_knight1);
+    root_chessPieces->addChild(t2_knight2);
+    root_chessPieces->addChild(t2_bishop1);
+    root_chessPieces->addChild(t2_bishop2);
+    root_chessPieces->addChild(t2_rook1);
+    root_chessPieces->addChild(t2_rook2);
+
 
     root_board = new CgSceneGraphEntity();
     root_board->setName("root_board");
     root_board->setCurrent_transformation(chessBoard->getCurrent_transformation());
     root_board->addChild(chessBoard);
-    root_board->addChild(t1_king);
-    root_board->addChild(t2_king);
+    root_board->addChild(root_chessPieces);
 
 
     //Tisch
@@ -237,7 +322,7 @@ void CgSceneControl::Uebung05()
     tableplate = new CgSceneGraphEntity();
     tableplate->setName("tableplate");
     tableplate->addListObject(m_dice);
-    tableplate->getAppearance().setObject_color(glm::vec3(0,1,0));
+    //tableplate->getAppearance().setObject_color(glm::vec3(0,1,0));
 
     root_table = new CgSceneGraphEntity();
     root_table->setName("root_table");
@@ -256,7 +341,7 @@ void CgSceneControl::Uebung05()
     root->setName("m_root");
     root->setCurrent_transformation(glm::mat4(1.));
     root->addChild(root_table);
-    //root->addChild(root_chair);
+    root->addChild(root_chair);
 
     //Tisch
     translate_obj(tableplate, glm::vec3(0,1,0));
@@ -275,8 +360,51 @@ void CgSceneControl::Uebung05()
     scale_obj(leg_4, glm::vec3(0.1,2,0.1));
 
     //Schachnbrett
-    translate_obj(chessBoard, glm::vec3(0,1.075,0));
+    translate_obj(root_board, glm::vec3(0,1.075,0));
+
     scale_obj(chessBoard, glm::vec3(1.2,0.05,1.2));
+
+    translate_obj(root_chessPieces, glm::vec3(-0.04,0.025,-0.04));
+    scale_obj(root_chessPieces, glm::vec3(0.075));
+
+    t1_king->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_queen->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_knight1->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_knight2->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_bishop1->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_bishop2->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_rook1->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_rook2->getAppearance().setObject_color(glm::vec3(1,1,1));
+
+    t2_king->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_queen->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_knight1->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_knight2->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_bishop1->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_bishop2->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_rook1->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_rook2->getAppearance().setObject_color(glm::vec3(0,1,1));
+
+    float width = 1;
+    float depth = 7;
+
+    translate_obj(t1_king, glm::vec3(depth,0,width));
+    translate_obj(t1_queen, glm::vec3(depth,0,-width));
+    translate_obj(t1_bishop1, glm::vec3(depth,0,3*width));
+    translate_obj(t1_bishop2, glm::vec3(depth,0,-3*width));
+    translate_obj(t1_knight1, glm::vec3(depth,0,5*width));
+    translate_obj(t1_knight2, glm::vec3(depth,0,-5*width));
+    translate_obj(t1_rook1, glm::vec3(depth,0,7*width));
+    translate_obj(t1_rook2, glm::vec3(depth,0,-7*width));
+
+    translate_obj(t2_king, glm::vec3(-depth,0,width));
+    translate_obj(t2_queen, glm::vec3(-depth,0,-width));
+    translate_obj(t2_bishop1, glm::vec3(-depth,0,3*width));
+    translate_obj(t2_bishop2, glm::vec3(-depth,0,-3*width));
+    translate_obj(t2_knight1, glm::vec3(-depth,0,5*width));
+    translate_obj(t2_knight2, glm::vec3(-depth,0,-5*width));
+    translate_obj(t2_rook1, glm::vec3(-depth,0,7*width));
+    translate_obj(t2_rook2, glm::vec3(-depth,0,-7*width));
 
     //Kiste
     scale_obj(chestFloor, glm::vec3(0.4,0.025,0.2));
@@ -456,6 +584,26 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
         }
     }
 
+    if(m_king!=NULL)
+    {
+        m_renderer->init(m_king);
+    }
+    if(m_rook!=NULL)
+    {
+        m_renderer->init(m_rook);
+    }
+    if(m_bishop!=NULL)
+    {
+        m_renderer->init(m_bishop);
+    }
+    if(m_knight!=NULL)
+    {
+        m_renderer->init(m_knight);
+    }
+    if(m_queen!=NULL)
+    {
+        m_renderer->init(m_queen);
+    }
     //m_renderer->setUniformValue("mycolor",glm::vec4(0.0,1.0,0.0,1.0));
 }
 
