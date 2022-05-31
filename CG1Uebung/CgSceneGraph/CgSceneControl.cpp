@@ -69,6 +69,16 @@ void CgSceneControl::Uebung05()
     m_bishop = new CgDice();
     m_knight = new CgDice();
     m_queen = new CgDice();
+    m_polyline = new CgPolyline();
+
+    m_polyline->startLaneRiesenfeldAlgo(2);
+    m_polyline->startLaneRiesenfeldAlgo(2);
+    m_polyline->startLaneRiesenfeldAlgo(2);
+    m_polyline->startLaneRiesenfeldAlgo(2);
+
+    m_rotation = new CgRotation(m_polyline->getVertices(), 32);
+
+
 
     ObjLoader* loader= new ObjLoader();
 
@@ -76,8 +86,8 @@ void CgSceneControl::Uebung05()
     std::vector<glm::vec3> norm;
     std::vector<unsigned int> indx;
 
-    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Man_sitting.obj");
-    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Man_sitting.obj");
+    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Man_sitting.obj");
+    //loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Man_sitting.obj");
 
     loader->getPositionData(pos);
     loader->getNormalData(norm);
@@ -85,8 +95,8 @@ void CgSceneControl::Uebung05()
 
     m_person->init(pos,norm,indx);
 
-    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Queen.obj");
-    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Queen.obj");
+    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Queen.obj");
+    //loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Queen.obj");
 
     loader->getPositionData(pos);
     loader->getNormalData(norm);
@@ -94,8 +104,8 @@ void CgSceneControl::Uebung05()
 
     m_queen->init(pos,norm,indx);
 
-    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Knight.obj");
-    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Knight.obj");
+    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Knight.obj");
+    //loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Knight.obj");
 
     loader->getPositionData(pos);
     loader->getNormalData(norm);
@@ -103,8 +113,8 @@ void CgSceneControl::Uebung05()
 
     m_knight->init(pos,norm,indx);
 
-    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Bishop.obj");
-    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Bishop.obj");
+    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Bishop.obj");
+    //loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Bishop.obj");
 
     loader->getPositionData(pos);
     loader->getNormalData(norm);
@@ -112,8 +122,8 @@ void CgSceneControl::Uebung05()
 
     m_bishop->init(pos,norm,indx);
 
-    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/King.obj");
-    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/King.obj");
+    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/King.obj");
+    //loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/King.obj");
 
     loader->getPositionData(pos);
     loader->getNormalData(norm);
@@ -121,8 +131,8 @@ void CgSceneControl::Uebung05()
 
     m_king->init(pos,norm,indx);
 
-    //loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Rook.obj");
-    loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Rook.obj");
+    loader->load("/home/skrap3r/Dokumente/CG1/CG1Uebung/CgData/Rook.obj");
+    //loader->load("/mnt/hgfs/Git/CG1/CG1Uebung/CgData/Rook.obj");
 
     loader->getPositionData(pos);
     loader->getNormalData(norm);
@@ -240,6 +250,38 @@ void CgSceneControl::Uebung05()
     t1_rook2->setName("t1_rook2");
     t1_rook2->addListObject(m_rook);
 
+    t1_pawn_1 = new CgSceneGraphEntity();
+    t1_pawn_1->setName("t1_pawn_1");
+    t1_pawn_1->addListObject(m_rotation);
+
+    t1_pawn_2 = new CgSceneGraphEntity();
+    t1_pawn_2->setName("t1_pawn_2");
+    t1_pawn_2->addListObject(m_rotation);
+
+    t1_pawn_3 = new CgSceneGraphEntity();
+    t1_pawn_3->setName("t1_pawn_3");
+    t1_pawn_3->addListObject(m_rotation);
+
+    t1_pawn_4 = new CgSceneGraphEntity();
+    t1_pawn_4->setName("t1_pawn_4");
+    t1_pawn_4->addListObject(m_rotation);
+
+    t1_pawn_5 = new CgSceneGraphEntity();
+    t1_pawn_5->setName("t1_pawn_5");
+    t1_pawn_5->addListObject(m_rotation);
+
+    t1_pawn_6 = new CgSceneGraphEntity();
+    t1_pawn_6->setName("t1_pawn_6");
+    t1_pawn_6->addListObject(m_rotation);
+
+    t1_pawn_7 = new CgSceneGraphEntity();
+    t1_pawn_7->setName("t1_pawn_7");
+    t1_pawn_7->addListObject(m_rotation);
+
+    t1_pawn_8 = new CgSceneGraphEntity();
+    t1_pawn_8->setName("t1_pawn_8");
+    t1_pawn_8->addListObject(m_rotation);
+
 
     t2_king = new CgSceneGraphEntity();
     t2_king->setName("t2_king");
@@ -273,6 +315,58 @@ void CgSceneControl::Uebung05()
     t2_rook2->setName("t2_rook2");
     t2_rook2->addListObject(m_rook);
 
+    t2_pawn_1 = new CgSceneGraphEntity();
+    t2_pawn_1->setName("t2_pawn_1");
+    t2_pawn_1->addListObject(m_rotation);
+
+    t2_pawn_2 = new CgSceneGraphEntity();
+    t2_pawn_2->setName("t2_pawn_2");
+    t2_pawn_2->addListObject(m_rotation);
+
+    t2_pawn_3 = new CgSceneGraphEntity();
+    t2_pawn_3->setName("t2_pawn_3");
+    t2_pawn_3->addListObject(m_rotation);
+
+    t2_pawn_4 = new CgSceneGraphEntity();
+    t2_pawn_4->setName("t2_pawn_4");
+    t2_pawn_4->addListObject(m_rotation);
+
+    t2_pawn_5 = new CgSceneGraphEntity();
+    t2_pawn_5->setName("t2_pawn_5");
+    t2_pawn_5->addListObject(m_rotation);
+
+    t2_pawn_6 = new CgSceneGraphEntity();
+    t2_pawn_6->setName("t2_pawn_6");
+    t2_pawn_6->addListObject(m_rotation);
+
+    t2_pawn_7 = new CgSceneGraphEntity();
+    t2_pawn_7->setName("t2_pawn_7");
+    t2_pawn_7->addListObject(m_rotation);
+
+    t2_pawn_8 = new CgSceneGraphEntity();
+    t2_pawn_8->setName("t2_pawn_8");
+    t2_pawn_8->addListObject(m_rotation);
+
+    root_chessPawns = new CgSceneGraphEntity();
+    root_chessPawns->setName("root_chessPawns");
+    root_chessPawns->setCurrent_transformation(glm::mat4(1.));
+    root_chessPawns->addChild(t1_pawn_1);
+    root_chessPawns->addChild(t1_pawn_2);
+    root_chessPawns->addChild(t1_pawn_3);
+    root_chessPawns->addChild(t1_pawn_4);
+    root_chessPawns->addChild(t1_pawn_5);
+    root_chessPawns->addChild(t1_pawn_6);
+    root_chessPawns->addChild(t1_pawn_7);
+    root_chessPawns->addChild(t1_pawn_8);
+    root_chessPawns->addChild(t2_pawn_1);
+    root_chessPawns->addChild(t2_pawn_2);
+    root_chessPawns->addChild(t2_pawn_3);
+    root_chessPawns->addChild(t2_pawn_4);
+    root_chessPawns->addChild(t2_pawn_5);
+    root_chessPawns->addChild(t2_pawn_6);
+    root_chessPawns->addChild(t2_pawn_7);
+    root_chessPawns->addChild(t2_pawn_8);
+
     root_chessPieces = new CgSceneGraphEntity();
     root_chessPieces->setName("root_chessPieces");
     root_chessPieces->setCurrent_transformation(glm::mat4(1.));
@@ -300,6 +394,7 @@ void CgSceneControl::Uebung05()
     root_board->setCurrent_transformation(chessBoard->getCurrent_transformation());
     root_board->addChild(chessBoard);
     root_board->addChild(root_chessPieces);
+    root_board->addChild(root_chessPawns);
 
 
     //Tisch
@@ -367,24 +462,6 @@ void CgSceneControl::Uebung05()
     translate_obj(root_chessPieces, glm::vec3(-0.04,0.025,-0.04));
     scale_obj(root_chessPieces, glm::vec3(0.075));
 
-    t1_king->getAppearance().setObject_color(glm::vec3(1,1,1));
-    t1_queen->getAppearance().setObject_color(glm::vec3(1,1,1));
-    t1_knight1->getAppearance().setObject_color(glm::vec3(1,1,1));
-    t1_knight2->getAppearance().setObject_color(glm::vec3(1,1,1));
-    t1_bishop1->getAppearance().setObject_color(glm::vec3(1,1,1));
-    t1_bishop2->getAppearance().setObject_color(glm::vec3(1,1,1));
-    t1_rook1->getAppearance().setObject_color(glm::vec3(1,1,1));
-    t1_rook2->getAppearance().setObject_color(glm::vec3(1,1,1));
-
-    t2_king->getAppearance().setObject_color(glm::vec3(0,1,1));
-    t2_queen->getAppearance().setObject_color(glm::vec3(0,1,1));
-    t2_knight1->getAppearance().setObject_color(glm::vec3(0,1,1));
-    t2_knight2->getAppearance().setObject_color(glm::vec3(0,1,1));
-    t2_bishop1->getAppearance().setObject_color(glm::vec3(0,1,1));
-    t2_bishop2->getAppearance().setObject_color(glm::vec3(0,1,1));
-    t2_rook1->getAppearance().setObject_color(glm::vec3(0,1,1));
-    t2_rook2->getAppearance().setObject_color(glm::vec3(0,1,1));
-
     float width = 1;
     float depth = 7;
 
@@ -405,6 +482,65 @@ void CgSceneControl::Uebung05()
     translate_obj(t2_knight2, glm::vec3(-depth,0,-5*width));
     translate_obj(t2_rook1, glm::vec3(-depth,0,7*width));
     translate_obj(t2_rook2, glm::vec3(-depth,0,-7*width));
+
+
+    translate_obj(root_chessPawns, glm::vec3(0,0.1,0));
+    scale_obj(root_chessPawns, glm::vec3(0.2));
+
+    depth = 2;
+    width = 0.375;
+    translate_obj(t1_pawn_1, glm::vec3(depth,0,width));
+    translate_obj(t1_pawn_2, glm::vec3(depth,0,-width));
+    translate_obj(t1_pawn_3, glm::vec3(depth,0,3*width));
+    translate_obj(t1_pawn_4, glm::vec3(depth,0,-3*width));
+    translate_obj(t1_pawn_5, glm::vec3(depth,0,5*width));
+    translate_obj(t1_pawn_6, glm::vec3(depth,0,-5*width));
+    translate_obj(t1_pawn_7, glm::vec3(depth,0,7*width));
+    translate_obj(t1_pawn_8, glm::vec3(depth,0,-7*width));
+
+    translate_obj(t2_pawn_1, glm::vec3(-depth,0,width));
+    translate_obj(t2_pawn_2, glm::vec3(-depth,0,-width));
+    translate_obj(t2_pawn_3, glm::vec3(-depth,0,3*width));
+    translate_obj(t2_pawn_4, glm::vec3(-depth,0,-3*width));
+    translate_obj(t2_pawn_5, glm::vec3(-depth,0,5*width));
+    translate_obj(t2_pawn_6, glm::vec3(-depth,0,-5*width));
+    translate_obj(t2_pawn_7, glm::vec3(-depth,0,7*width));
+    translate_obj(t2_pawn_8, glm::vec3(-depth,0,-7*width));
+
+
+    t1_king->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_queen->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_knight1->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_knight2->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_bishop1->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_bishop2->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_rook1->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_rook2->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_pawn_1->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_pawn_2->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_pawn_3->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_pawn_4->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_pawn_5->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_pawn_6->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_pawn_7->getAppearance().setObject_color(glm::vec3(1,1,1));
+    t1_pawn_8->getAppearance().setObject_color(glm::vec3(1,1,1));
+
+    t2_king->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_queen->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_knight1->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_knight2->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_bishop1->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_bishop2->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_rook1->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_rook2->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_pawn_1->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_pawn_2->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_pawn_3->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_pawn_4->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_pawn_5->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_pawn_6->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_pawn_7->getAppearance().setObject_color(glm::vec3(0,1,1));
+    t2_pawn_8->getAppearance().setObject_color(glm::vec3(0,1,1));
 
     //Kiste
     scale_obj(chestFloor, glm::vec3(0.4,0.025,0.2));
@@ -584,6 +720,10 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
         }
     }
 
+    if(m_rotation!=NULL)
+    {
+        m_renderer->init(m_rotation);
+    }
     if(m_king!=NULL)
     {
         m_renderer->init(m_king);

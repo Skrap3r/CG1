@@ -64,6 +64,7 @@ private:
     CgSceneGraphEntity* root_board;
     CgSceneGraphEntity* root_chest;
     CgSceneGraphEntity* root_chessPieces;
+    CgSceneGraphEntity* root_chessPawns;
 
     CgSceneGraphEntity* tableplate;
     CgSceneGraphEntity* leg_1;
@@ -80,6 +81,14 @@ private:
     CgSceneGraphEntity* t1_bishop2;
     CgSceneGraphEntity* t1_rook1;
     CgSceneGraphEntity* t1_rook2;
+    CgSceneGraphEntity* t1_pawn_1;
+    CgSceneGraphEntity* t1_pawn_2;
+    CgSceneGraphEntity* t1_pawn_3;
+    CgSceneGraphEntity* t1_pawn_4;
+    CgSceneGraphEntity* t1_pawn_5;
+    CgSceneGraphEntity* t1_pawn_6;
+    CgSceneGraphEntity* t1_pawn_7;
+    CgSceneGraphEntity* t1_pawn_8;
 
     CgSceneGraphEntity* t2_king;
     CgSceneGraphEntity* t2_queen;
@@ -89,6 +98,14 @@ private:
     CgSceneGraphEntity* t2_bishop2;
     CgSceneGraphEntity* t2_rook1;
     CgSceneGraphEntity* t2_rook2;
+    CgSceneGraphEntity* t2_pawn_1;
+    CgSceneGraphEntity* t2_pawn_2;
+    CgSceneGraphEntity* t2_pawn_3;
+    CgSceneGraphEntity* t2_pawn_4;
+    CgSceneGraphEntity* t2_pawn_5;
+    CgSceneGraphEntity* t2_pawn_6;
+    CgSceneGraphEntity* t2_pawn_7;
+    CgSceneGraphEntity* t2_pawn_8;
 
     CgSceneGraphEntity* chestFloor;
     CgSceneGraphEntity* chestWall_1;
